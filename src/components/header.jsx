@@ -1,22 +1,43 @@
 import Link from "next/link";
 import React from "react";
+import Image from "next/image";
+import Produtos from "../images/produtos.png";
+import Comprador from "../images/comprador.png";
+import Inventario from "../images/inventario.png";
 
 export default function Header() {
   return (
-    <div className="w-full flex justify-between bg-blue-300 h-20 px-20 py-4">
-      <h1 className="text-3xl font-bold text-black py-1 ">Projeto Cantina</h1>
-      <div>
-      </div>
-      <div className="flex aspect-[4/1] w-1/3 justify-center">
-        <button className=" bg-blue-500 mx-2 text-white px-8 py-2 rounded mr-2 ">
-          Cadastrar Produtos
-        </button>
-        <button className="hover:basis mx-2 bg-green-600 text-white px-4 py-2 rounded ">
-          Cadastrar Comprador
-        </button>
-        <button className="hover:basis mx-2 bg-amber-500 text-white font-bold-300 px-4 py-2 rounded ">
-          Inventario
-        </button>
+    <div className="w-2000 flex justify-center bg-blue-300 py-2">
+      <div className="flex justify-between">
+        <h1 className="text-black hidden sm:block text-xl md:text-2xl lg:text-3xl font-bold px-6 py-3 justify-center">
+          Projeto Cantina
+        </h1>
+        <div className="flex aspect-[4/1] justify-center">
+          <button className="bg-blue-500 mx-2 text-white p-2 rounded mr-2">
+            <Image
+              src={Produtos}
+              alt="Pagina de Produtos"
+              title="Produtos"
+              className="w-10 min-w-5"
+            />
+          </button>
+          <button className="hover:basis mx-2 bg-green-600 text-white p-2 rounded">
+            <Image
+              src={Comprador}
+              alt="Cadastrar Comprador"
+              title="Cadastrar Cliente"
+              className="w-10 min-w-5"
+            />
+          </button>
+          <button className="hover:basis mx-2 bg-amber-500 text-white p-2 rounded">
+            <Image
+              src={Inventario}
+              alt="Inventario"
+              title="Inventario"
+              className="w-10 min-w-5"
+            />
+          </button>
+        </div>
       </div>
     </div>
   );
