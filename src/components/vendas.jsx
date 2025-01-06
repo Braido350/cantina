@@ -2,7 +2,6 @@
 
 import { useState } from "react";
 import React from "react";
-import Buttons from "./buttons";
 
 function CadastrarProduto() {
   const [quantidade, setQuantidade] = useState(1);

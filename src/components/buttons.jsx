@@ -1,18 +1,22 @@
-export default function Buttons({ verde, vermelho }) {
+const Button = (props) => {
   return (
     <div className="flex justify-between mt-6">
       <button
-        type="submit"
+        onClick={props.onSave}
+        type="button"
         className="px-6 py-2 bg-green-500 text-white rounded hover:bg-green-600 transition"
       >
-        {verde}
+        {props.verde}
       </button>
       <button
-        type="submit"
+        onClick={props.onCancel}
+        type="button"
         className="px-6 py-2 bg-red-500 text-white rounded hover:bg-red-600 transition"
       >
-        {vermelho}
+        {props.vermelho}
       </button>
     </div>
   );
-}
+};
+
+export default Button;
