@@ -1,19 +1,24 @@
 import { useState } from "react";
 import Button from "./buttons";
+import { tratarDadosCliente } from "@/backEnd/tratarDados";
 
 const Imput = (props) => {
   const [formData, setFormData] = useState({});
 
-  const handleChange = (e, nome) => {
+  const handleChange = (e, name) => {
     setFormData({
       ...formData,
-      [nome]: e.target.value,
+      [name]: e.target.value,
     });
   };
 
   const handleSave = (e) => {
     e.preventDefault();
-    alert(tratarDadosCliente(formDat));
+    const resultado = tratarDadosCliente(formData);
+    alert(resultado);
+    if (resultado === "Cliente cadastrado com sucesso!") {
+      setFormData({});
+    }
     console.log("Dados salvos:", formData);
   };
 
@@ -30,18 +35,18 @@ const Imput = (props) => {
         <div className="mb-4" key={item.id}>
           <label
             className="block text-gray-700 text-1xl font-medium mb-2"
-            htmlFor={item.nome}
+            htmlFor={item.name}
           >
-            {item.nome}
+            {item.txt}
           </label>
           <input
             type="text"
-            id={item.nome}
-            name={item.nome}
+            id={item.name}
+            name={item.name}
             placeholder={item.placeholder}
             className="w-full px-4 py-2 text-lg text-gray-800 bg-gray-300 rounded"
-            onChange={(e) => handleChange(e, item.nome)}
-            value={formData[item.nome] || ""}
+            onChange={(e) => handleChange(e, item.name)}
+            value={formData[item.name] || ""}
           />
         </div>
       ))}

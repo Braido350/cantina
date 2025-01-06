@@ -1,46 +1,35 @@
 "use client";
 
 import { useState } from "react";
-import { tratarDadosCliente } from "@/backEnd/tratarDados";
 import Imput from "./imput";
-import Button from "./buttons";
 
 export function CadastroClientes() {
   const [cadastro, setCadastro] = useState([
     {
       id: 1,
-      nome: "Nome do Cliente",
+      txt: "Nome do Cliente",
       placeholder: "Nome do Cliente",
-      imput: "",
+      name: "nomeCliente",
     },
     {
       id: 2,
-      nome: "Telefone",
+      txt: "Telefone",
       placeholder: "Ex: (69) 9 9987-2557",
-      imput: "",
+      name: "telefone",
     },
     {
       id: 3,
-      nome: "Cidade",
+      txt: "Cidade",
       placeholder: "Ex: Ariquemes",
-      imput: "",
+      name: "cidade",
     },
     {
       id: 4,
-      nome: "CPF",
+      txt: "CPF",
       placeholder: "Ex: 000.000.000-00",
-      imput: "",
+      name: "cpf",
     },
   ]);
-
-  function dadosCliente() {
-    const nomeCliente = cadastro[0].imput;
-    const telefone = cadastro[1].imput;
-    const cidade = cadastro[2].imput;
-    const cpf = cadastro[3].imput;
-
-    return tratarDadosCliente({ nomeCliente, telefone, cidade, cpf });
-  }
 
   return (
     <div className="box-border h-auto w-[600px] p-4 border-4 rounded-2xl bg-white">
