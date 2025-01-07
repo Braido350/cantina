@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import Imput from "./imput";
+import Input from "./inputClient";
 
 export function CadastroClientes() {
   const [cadastro, setCadastro] = useState([
@@ -32,16 +32,15 @@ export function CadastroClientes() {
   ]);
 
   return (
-    <div className="box-border h-auto w-[600px] p-4 border-4 rounded-2xl bg-white">
+    <div className="box-border h-auto w-[600px] size-auto p-4 border-4 rounded-2xl bg-white">
       <div className="w-full aspect-auto">
         <h1 className="text-center text-black text-3xl font-semibold mb-6">
           Cadastrar Clientes
         </h1>
       </div>
-      <Imput imp={cadastro} />
+      <Input imp={cadastro} />
     </div>
   );
 }
 
-export { dadosCliente };
 export default CadastroClientes;

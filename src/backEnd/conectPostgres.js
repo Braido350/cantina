@@ -8,7 +8,7 @@ const pool = new Pool({
 })
 pool.query('SELECT NOW()', (err, res) => {
   console.log(err, res) 
-  pool.end() 
+  pool.end()
 })
 
 function getComprador(){

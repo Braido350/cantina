@@ -1,36 +1,16 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Button from "./buttons";
-import { tratarDadosCliente } from "@/backEnd/tratarDados";
+import funcClientes from "@/backEnd/InputFunc";
 
-const Imput = (props) => {
+const Input = (props) => {
   const [formData, setFormData] = useState({});
-
-  const handleChange = (e, name) => {
-    setFormData({
-      ...formData,
-      [name]: e.target.value,
-    });
-  };
-
-  const handleSave = (e) => {
-    e.preventDefault();
-    const resultado = tratarDadosCliente(formData);
-    alert(resultado);
-    if (resultado === "Cliente cadastrado com sucesso!") {
-      setFormData({});
-    }
-    console.log("Dados salvos:", formData);
-  };
-
-  const handleCancel = (e) => {
-    e.preventDefault();
-    document.querySelectorAll("input").forEach((input) => (input.value = ""));
-    setFormData({});
-    console.log("Ação cancelada");
-  };
+  const { handleChange, handleSave, handleCancel } = funcClientes(
+    formData,
+    setFormData
+  );
 
   return (
-    <form>
+    <>
       {props.imp.map((item) => (
         <div className="mb-4" key={item.id}>
           <label
@@ -56,8 +36,8 @@ const Imput = (props) => {
         verde="Salvar"
         vermelho="Cancelar"
       />
-    </form>
+    </>
   );
 };
 
-export default Imput;
+export default Input;
