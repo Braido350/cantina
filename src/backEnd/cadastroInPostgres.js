@@ -1,4 +1,3 @@
-import postGres from "../api/db.js";
 import verificacoes from "./verificacoes.js";
 
 const cadastroInPostgres = {

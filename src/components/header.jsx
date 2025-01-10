@@ -1,9 +1,9 @@
 import Link from "next/link";
 import React from "react";
 import Image from "next/image";
-import Produtos from "../images/produtos.png";
-import Comprador from "../images/comprador.png";
-import Inventario from "../images/inventario.png";
+import Produtos from "../../public/produtos.png";
+import Comprador from "../../public/comprador.png";
+import Inventario from "../../public/inventario.png";
 
 export default function Header() {
   return (

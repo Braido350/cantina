@@ -1,4 +1,5 @@
-import cadastroInPostgres from "./cadastroInPostgres.js";
+// import cadastroInPostgres from "./cadastroInPostgres.js";
+// cadastroInPostgres na verdade deve ser um post hhtp para o backend
 
 const verificacoes = {
   verificarDadosCliente: (props) => {
@@ -19,7 +20,7 @@ const verificacoes = {
     if (cpf.length <= 11) {
       return "CPF inválido.";
     }
-    cadastroInPostgres.criarDadosClientes(nomeCliente, telefone, cidade, cpf);
+    // cadastroInPostgres.criarDadosClientes(nomeCliente, telefone, cidade, cpf);
     return "Cliente cadastrado com sucesso!";
   },
   verificarDadosProduto: (props) => {
@@ -37,7 +38,7 @@ const verificacoes = {
     if (valor <= 0) {
       return "Valor inválido.";
     }
-    cadastroInPostgres.criarDadosProdutos(nomeProduto, quantidade, valor);
+    // cadastroInPostgres.criarDadosProdutos(nomeProduto, quantidade, valor);
     return "Produto cadastrado com sucesso!";
   },
 

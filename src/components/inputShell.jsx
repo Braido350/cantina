@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import Button from "./buttons";
-import { tratarVendas } from "../backEnd/verificacoes";
+import verificacoes from "../backEnd/verificacoes";
 
 const Imput = (props) => {
   const [formData, setFormData] = useState({});
@@ -23,7 +23,7 @@ const Imput = (props) => {
 
   const handleSave = (e) => {
     e.preventDefault();
-    const resultado = tratarVendas(formData);
+    const resultado = verificacoes.tratarVendas(formData);
     alert(resultado);
     if (resultado === "Venda realizada com sucesso!") {
       setFormData({});
