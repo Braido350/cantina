@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import Button from "./buttons";
-import funcClientes from "@/backEnd/InputFunc";
+import funcClientes from "@/services/InputFunc";
 
 const Input = (props) => {
   const [formData, setFormData] = useState({});

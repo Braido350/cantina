@@ -1,5 +1,3 @@
-import verificacoes from "./verificacoes.js";
-
 const cadastroInPostgres = {
   criarDadosProdutos: async () => {
     const query = `

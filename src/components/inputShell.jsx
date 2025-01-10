@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import Button from "./buttons";
-import verificacoes from "../backEnd/verificacoes";
+import verificacoes from "../services/verificacoes";
 
 const Imput = (props) => {
   const [formData, setFormData] = useState({});
