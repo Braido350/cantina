@@ -1,0 +1,29 @@
+services:
+  db:
+    image: postgres:17.2
+    container_name: postgres
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: "Braido350"
+      POSTGRES_DB: cantina
+    ports:
+      - "5432:5432" # Porta exposta para o PostgreSQL
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    restart: unless-stopped
+
+  pgadmin:
+    image: dpage/pgadmin4:8.14
+    container_name: pgadmin
+    environment:
+      PGADMIN_DEFAULT_EMAIL: braido350@gmail.com
+      PGADMIN_DEFAULT_PASSWORD: "Braido350"
+    ports:
+      - "8080:80" # Porta exposta para o PgAdmin
+    depends_on:
+      - db
+    restart: unless-stopped
+
+volumes:
+  postgres_data:
+
