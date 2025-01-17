@@ -11,7 +11,7 @@ const {
 } = dbFunctions;
 
 export async function GET(request) {
-  const data = await getClientes();
+  const data = await testConnection();
   return new Response(JSON.stringify(data));
 }
 

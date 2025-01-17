@@ -36,7 +36,7 @@ const dbFunctions = {
     }
   },
 
-  cadastrarClientes: async () => {
+  cadastrarClientes: async (cliente) => {
     const clientes = verificacoes();
 
     for (const cliente of clientes) {
