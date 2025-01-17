@@ -13,3 +13,10 @@ if (!global.postGres) {
 console.log(global.postGres);
 
 export default postGres;
+
+// Exemplo de .env
+// POSTGRES_USER=
+// POSTGRES_HOST=
+// POSTGRES_DATABASE=
+// POSTGRES_PASSWORD=
+// POSTGRES_PORT="
