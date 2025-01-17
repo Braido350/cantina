@@ -1,6 +1,6 @@
 import pkg from "pg";
-
 const { Pool } = pkg;
+
 if (!global.postGres) {
   global.postGres = new Pool({
     user: process.env.POSTGRES_USER,
@@ -10,6 +10,4 @@ if (!global.postGres) {
     port: process.env.POSTGRES_PORT,
   });
 }
-console.log(global.postGres);
-
-export default postGres;
+const postGres = global.postGres;

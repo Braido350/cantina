@@ -1,10 +1,18 @@
 "use server";
+"no cache";
+import dbFunctions from "./_services/dbFunctions";
+
+const {
+  cadastrarClientes,
+  cadastrarProdutos,
+  getProdutos,
+  getClientes,
+  testConnection,
+} = dbFunctions;
 
 export async function GET(request) {
-  return new Response(JSON.stringify({ name: "John Doe" }), {
-    status: 200,
-    headers: { "Content-Type": "application/json" },
-  });
+  const data = await getClientes();
+  return new Response(JSON.stringify(data));
 }
 
 export async function POST(request) {
