@@ -1,13 +1,32 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import Button from "./buttons";
-import funcClientes from "@/services/InputFunc";
+import { verificarDadosCliente } from "@/services/verificacoes";
 
 const Input = (props) => {
   const [formData, setFormData] = useState({});
-  const { handleChange, handleSave, handleCancel } = funcClientes(
-    formData,
-    setFormData
-  );
+
+  const handleChange = (e, name) => {
+    setFormData({
+      ...formData,
+      [name]: e.target.value,
+    });
+  };
+
+  const handleSave = (e) => {
+    e.preventDefault();
+    alert("Dados do formData: " + JSON.stringify(formData));
+    const resultado = verificarDadosCliente(formData);
+    if (resultado === "Cliente cadastrado com sucesso!") {
+      alert(resultado);
+      setFormData({});
+    }
+  };
+
+  const handleCancel = (e) => {
+    e.preventDefault();
+    setFormData({});
+    console.log("Ação cancelada");
+  };
 
   return (
     <>

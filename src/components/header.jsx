@@ -7,8 +7,7 @@ import Inventario from "../../public/inventario.png";
 
 export default function Header() {
   return (
-    <div className="size-full flex justify-center bg-blue-300 py-2">
-      <div className="flex justify-between">
+    <header className="size-full flex justify-center bg-blue-300 py-2">
         <Link href="/">
           <h1 className="text-black hidden sm:block text-xl md:text-2xl lg:text-3xl font-bold px-6 py-3 justify-center">
             Projeto Cantina
@@ -45,8 +44,7 @@ export default function Header() {
               />
             </button>
           </Link>
-        </div>
       </div>
-    </div>
+    </header>
   );
 }

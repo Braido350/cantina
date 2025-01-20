@@ -1,6 +1,11 @@
-'use server';
+"use server";
 
 import postGres from "../db.js";
+import {
+  verificarDadosCliente,
+  verificarDadosProduto,
+  tratarVendas,
+} from "./verificacoes.js";
 
 const criarDadosProdutos = async () => {
   const query = `
@@ -31,33 +36,34 @@ const criarDadosClientes = async () => {
   `;
   try {
     await postGres.query(query);
-    console.log("Tabela de clientes criada com sucesso!");
+    return "Tabela de clientes criada com sucesso!";
   } catch (err) {
-    console.error("Erro ao criar tabela de clientes:", err);
+    return "Erro ao criar tabela de clientes:", err;
   }
 };
-
 const cadastrarClientes = async (cliente) => {
-  const clientes = verificacoes();
+  console.log("cliente", cliente);
+  if (typeof cliente !== "object" || cliente === null) {
+    throw new TypeError("cliente deve ser um objeto");
+  }
 
-  for (const cliente of clientes) {
-    const query = `
-      INSERT INTO client (nome, telefone, cidade, cpf)
-      VALUES ($1, $2, $3, $4)
-      ON CONFLICT (cpf) DO NOTHING;
-    `;
-    const values = [
-      cliente.nome,
-      cliente.telefone,
-      cliente.cidade,
-      cliente.cpf,
-    ];
-    try {
-      await postGres.query(query, values);
-      console.log(`Cliente ${cliente.nome} cadastrado com sucesso!`);
-    } catch (err) {
-      console.error(`Erro ao cadastrar cliente ${cliente.nome}:`, err);
-    }
+  const dadosValidos = verificarDadosCliente(cliente);
+  if (!dadosValidos) {
+    console.log(`Dados inválidos para o cliente ${cliente.nome}`);
+    return;
+  }
+
+  const query = `
+    INSERT INTO client (nome, telefone, cidade, cpf)
+    VALUES ($1, $2, $3, $4)
+    ON CONFLICT (cpf) DO NOTHING;
+  `;
+  const values = [cliente.nome, cliente.telefone, cliente.cidade, cliente.cpf];
+  try {
+    await postGres.query(query, values);
+    console.log(`Cliente ${cliente.nome} cadastrado com sucesso!`);
+  } catch (err) {
+    console.log(`Erro ao cadastrar cliente ${cliente.nome}:`, err);
   }
 };
 
@@ -95,7 +101,6 @@ const testConnection = async () => {
   return rows;
 };
 
-
 export {
   criarDadosProdutos,
   criarDadosClientes,
@@ -103,5 +108,5 @@ export {
   cadastrarProdutos,
   getProdutos,
   getClientes,
-  testConnection
+  testConnection,
 };
