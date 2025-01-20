@@ -1,8 +1,10 @@
+import axios from 'axios';
+
 // import cadastroInPostgres from "./cadastroInPostgres.js";
 // cadastroInPostgres na verdade deve ser um post hhtp para o backend
 
 const verificacoes = {
-  verificarDadosCliente: (props) => {
+  verificarDadosCliente: async (props) => {
     const { nomeCliente, telefone, cpf, cidade } = props;
 
     if (!nomeCliente || !telefone || !cpf || !cidade) {
@@ -20,10 +22,15 @@ const verificacoes = {
     if (cpf.length <= 11) {
       return "CPF inválido.";
     }
-    // cadastroInPostgres.criarDadosClientes(nomeCliente, telefone, cidade, cpf);
-    return "Cliente cadastrado com sucesso!";
+
+    try {
+      await axios.post('/api/cadastro', props);
+      return "Cliente cadastrado com sucesso!";
+    } catch (error) {
+      return `Erro ao cadastrar cliente. ${error}`;
+    }
   },
-  verificarDadosProduto: (props) => {
+  verificarDadosProduto: async (props) => {
     const { nomeProduto, quantidade, valor } = props;
 
     if (!nomeProduto || !quantidade || !valor) {
@@ -38,11 +45,16 @@ const verificacoes = {
     if (valor <= 0) {
       return "Valor inválido.";
     }
-    // cadastroInPostgres.criarDadosProdutos(nomeProduto, quantidade, valor);
-    return "Produto cadastrado com sucesso!";
+
+    try {
+      await axios.post('/api/cadastro', props);
+      return "Produto cadastrado com sucesso!";
+    } catch (error) {
+      return `Erro ao verificar o produto. ${error}`;
+    }
   },
 
-  tratarVendas: (props) => {
+  tratarVendas: async (props) => {
     const { cliente, produto, quantidade } = props;
 
     if (cliente && cliente.length < 3) {
@@ -57,7 +69,13 @@ const verificacoes = {
     if (quantidade <= 0) {
       return "Quantidade inválida.";
     }
-    return "Venda realizada com sucesso!";
+
+    try {
+      await axios.post('/api/cadastro', props);
+      return "Venda realizada com sucesso!";
+    } catch (error) {
+      return `Erro ao realizar a venda. ${error}`;
+    }
   },
 };
 
