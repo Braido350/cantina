@@ -1,8 +1,5 @@
 import axios from 'axios';
 
-// import cadastroInPostgres from "./cadastroInPostgres.js";
-// cadastroInPostgres na verdade deve ser um post hhtp para o backend
-
 const verificacoes = {
   verificarDadosCliente: async (props) => {
     const { nomeCliente, telefone, cpf, cidade } = props;
@@ -24,7 +21,7 @@ const verificacoes = {
     }
 
     try {
-      await axios.post('/api/cadastro', props);
+      await axios.post('/api/registerClient', props);
       return "Cliente cadastrado com sucesso!";
     } catch (error) {
       return `Erro ao cadastrar cliente. ${error}`;
@@ -50,7 +47,7 @@ const verificacoes = {
       await axios.post('/api/cadastro', props);
       return "Produto cadastrado com sucesso!";
     } catch (error) {
-      return `Erro ao verificar o produto. ${error}`;
+      return `Erro ao cadastrar o produto. ${error}`;
     }
   },
 
