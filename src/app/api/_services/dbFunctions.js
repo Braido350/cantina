@@ -1,6 +1,8 @@
+'use server';
+
 import postGres from "../db.js";
 
-export const criarDadosProdutos = async () => {
+const criarDadosProdutos = async () => {
   const query = `
     CREATE TABLE IF NOT EXISTS produtos (
       id SERIAL PRIMARY KEY,
@@ -17,7 +19,7 @@ export const criarDadosProdutos = async () => {
   }
 };
 
-export const criarDadosClientes = async () => {
+const criarDadosClientes = async () => {
   const query = `
     CREATE TABLE IF NOT EXISTS client (
       id SERIAL PRIMARY KEY,
@@ -35,7 +37,7 @@ export const criarDadosClientes = async () => {
   }
 };
 
-export const cadastrarClientes = async (cliente) => {
+const cadastrarClientes = async (cliente) => {
   const clientes = verificacoes();
 
   for (const cliente of clientes) {
@@ -59,7 +61,7 @@ export const cadastrarClientes = async (cliente) => {
   }
 };
 
-export const cadastrarProdutos = async () => {
+const cadastrarProdutos = async () => {
   const produtos = verificacoes();
 
   for (const produto of produtos) {
@@ -78,17 +80,28 @@ export const cadastrarProdutos = async () => {
   }
 };
 
-export const getProdutos = async (req, res) => {
+const getProdutos = async (req, res) => {
   const { rows } = await postGres.query(`SELECT * FROM produtos;`);
   return rows;
 };
 
-export const getClientes = async (req, res) => {
+const getClientes = async (req, res) => {
   const { rows } = await postGres.query(`SELECT * FROM client;`);
   return rows;
 };
 
-export const testConnection = async () => {
+const testConnection = async () => {
   const { rows } = await postGres.query("SELECT NOW()");
   return rows;
+};
+
+
+export {
+  criarDadosProdutos,
+  criarDadosClientes,
+  cadastrarClientes,
+  cadastrarProdutos,
+  getProdutos,
+  getClientes,
+  testConnection
 };
