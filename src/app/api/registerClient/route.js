@@ -1,14 +1,7 @@
 "use server";
 "no cache";
-import dbFunctions from "./_services/dbFunctions";
+import getClientes from "./_services/dbFunctions";
 
-const {
-  cadastrarClientes,
-  cadastrarProdutos,
-  getProdutos,
-  getClientes,
-  testConnection,
-} = dbFunctions;
 
 export async function GET(request) {
   const data = await getClientes();
