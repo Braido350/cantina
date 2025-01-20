@@ -33,9 +33,7 @@ function Vender() {
           Vender
         </h1>
       </div>
-      <form>
         <Input imp={vender} />
-      </form>
     </div>
   );
 }
