@@ -1,6 +1,5 @@
-import axios from "axios";
-
-async function verificarDadosCliente(props) {
+// Desc: Funções para verificar dados de cliente, produto e venda
+const verificarDadosCliente = (props) => {
   const { nomeCliente, telefone, cpf, cidade } = props;
   const telefoneRegex = /^\d{10,11}$/;
 
@@ -22,22 +21,10 @@ async function verificarDadosCliente(props) {
   if (!cpfRegex.test(cpf)) {
     return { error: "CPF inválido. Deve conter exatamente 11 dígitos." };
   }
-  try {
-    const response = await axios.post("/api/registerClient", props);
-    if (response.status === 200 && response.data.success) {
-      return { success: true };
-    } else {
-      return {
-        error:
-          "Erro ao cadastrar cliente. Verifique os dados e tente novamente.",
-      };
-    }
-  } catch (error) {
-    return `Erro ao cadastrar cliente. ${error}`;
-  }
-}
+  return { success: true };
+};
 
-async function verificarDadosProduto(props) {
+const verificarDadosProduto = async (props) => {
   const { nomeProduto, quantidade, valor } = props;
 
   if (!nomeProduto || !quantidade || !valor) {
@@ -52,16 +39,9 @@ async function verificarDadosProduto(props) {
   if (valor <= 0) {
     return "Valor inválido.";
   }
+};
 
-  try {
-    await axios.post("/api/", props);
-    return "Produto cadastrado com sucesso!";
-  } catch (error) {
-    return `Erro ao cadastrar o produto. ${error}`;
-  }
-}
-
-async function tratarVendas(props) {
+const tratarVendas = async (props) => {
   const { cliente, produto, quantidade } = props;
 
   if (cliente && cliente.length < 3) {
@@ -76,13 +56,28 @@ async function tratarVendas(props) {
   if (quantidade <= 0) {
     return "Quantidade inválida.";
   }
+};
 
+const verificarClienteExiste = async (cpf) => {
+  const checkQuery = `
+    SELECT * FROM client WHERE cpf = $1;
+  `;
+  const checkValues = [cpf];
   try {
-    await axios.post("/api/", props);
-    return "Venda realizada com sucesso!";
-  } catch (error) {
-    return `Erro ao realizar a venda. ${error}`;
+    const res = await postGres.query(checkQuery, checkValues);
+    if (res.rows.length > 0) {
+      console.log(`Cliente com CPF ${cpf} já está cadastrado.`);
+      return { error: "Cliente já cadastrado" };
+    }
+  } catch (err) {
+    console.log(`Erro ao verificar cliente ${cpf}:`, err);
+    return { error: "Erro ao verificar cliente" };
   }
-}
+};
 
-export { verificarDadosCliente, verificarDadosProduto, tratarVendas };
+export {
+  verificarDadosCliente,
+  verificarDadosProduto,
+  tratarVendas,
+  verificarClienteExiste,
+};

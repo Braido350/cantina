@@ -1,12 +1,12 @@
 "use server";
 
-import postGres from "../app/api/db.js";
+import postGres from "./db";
 import {
   verificarDadosCliente,
   verificarDadosProduto,
   tratarVendas,
   verificarClienteExiste,
-} from "./verificacoesDB.js";
+} from "./verificacoes.js";
 
 const criarDadosProdutos = async () => {
   const query = `

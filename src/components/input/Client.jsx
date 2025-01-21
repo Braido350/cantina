@@ -12,14 +12,27 @@ const Input = (props) => {
     });
   };
 
-  const handleSave = (e) => {
+  const handleSave = async (e) => {
     e.preventDefault();
     const validacao = verificarDadosCliente(formData);
     if (validacao.error) {
       alert(validacao.error);
       return;
     }
-    alert(validacao);
+    alert("Cliente cadastrado com sucesso!");
+    try {
+      const response = await axios.post("/api/registerClient", props);
+      if (response.status === 200 && response.data.success) {
+        return { success: true };
+      } else {
+        return {
+          error:
+            "Erro ao cadastrar cliente. Verifique os dados e tente novamente.",
+        };
+      }
+    } catch (error) {
+      return `Erro ao cadastrar cliente. ${error}`;
+    }
   };
 
   const handleCancel = (e) => {
