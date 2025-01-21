@@ -10,8 +10,6 @@ if (!global.postGres) {
     port: process.env.POSTGRES_PORT,
   });
 }
-console.log(global.postGres);
-
 export default postGres;
 
 // Exemplo de .env

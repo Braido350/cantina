@@ -5,6 +5,7 @@ import {
   verificarDadosCliente,
   verificarDadosProduto,
   tratarVendas,
+  verificarClienteExiste,
 } from "./verificacoes.js";
 
 const criarDadosProdutos = async () => {
@@ -42,26 +43,34 @@ const criarDadosClientes = async () => {
   }
 };
 const cadastrarClientes = async (cliente) => {
-  console.log("cliente", cliente);
-  if (typeof cliente !== "object" || cliente === null) {
-    throw new TypeError("cliente deve ser um objeto");
+  console.log("Cadastrando cliente...");
+  const validacao = verificarDadosCliente(cliente);
+  if (validacao.error) {
+    console.log(validacao.error);
+    return validacao;
   }
+  console.log("Cliente validado com sucesso!");
 
-  const dadosValidos = verificarDadosCliente(cliente);
-  if (!dadosValidos) {
-    console.log(`Dados inválidos para o cliente ${cliente.nome}`);
-    return;
+  const clienteExiste = await verificarClienteExiste(cliente.cpf);
+  if (clienteExiste && clienteExiste.error) {
+    return clienteExiste;
   }
+  console.log("Cliente não encontrado na base de dados.");
 
   const query = `
     INSERT INTO client (nome, telefone, cidade, cpf)
     VALUES ($1, $2, $3, $4)
     ON CONFLICT (cpf) DO NOTHING;
   `;
-  const values = [cliente.nome, cliente.telefone, cliente.cidade, cliente.cpf];
+  const values = [
+    cliente.nomeCliente,
+    cliente.telefone,
+    cliente.cidade,
+    cliente.cpf,
+  ];
   try {
     await postGres.query(query, values);
-    console.log(`Cliente ${cliente.nome} cadastrado com sucesso!`);
+    console.log(`Cliente ${cliente.nomeCliente} cadastrado com sucesso!`);
   } catch (err) {
     console.log(`Erro ao cadastrar cliente ${cliente.nome}:`, err);
   }
