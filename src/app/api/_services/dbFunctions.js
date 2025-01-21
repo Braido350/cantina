@@ -43,20 +43,16 @@ const criarDadosClientes = async () => {
   }
 };
 const cadastrarClientes = async (cliente) => {
-  console.log("Cadastrando cliente...");
   const validacao = verificarDadosCliente(cliente);
   if (validacao.error) {
     console.log(validacao.error);
     return validacao;
   }
-  console.log("Cliente validado com sucesso!");
 
   const clienteExiste = await verificarClienteExiste(cliente.cpf);
   if (clienteExiste && clienteExiste.error) {
     return clienteExiste;
   }
-  console.log("Cliente não encontrado na base de dados.");
-
   const query = `
     INSERT INTO client (nome, telefone, cidade, cpf)
     VALUES ($1, $2, $3, $4)
