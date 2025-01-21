@@ -46,17 +46,19 @@ const cadastrarClientes = async (cliente) => {
   const validacao = verificarDadosCliente(cliente);
   if (validacao.error) {
     console.log(validacao.error);
-    return validacao;
+    return { error: validacao.error };
   }
 
   const clienteExiste = await verificarClienteExiste(cliente.cpf);
   if (clienteExiste && clienteExiste.error) {
-    return clienteExiste;
+    return { error: clienteExiste.error };
   }
+
   const query = `
     INSERT INTO client (nome, telefone, cidade, cpf)
     VALUES ($1, $2, $3, $4)
-    ON CONFLICT (cpf) DO NOTHING;
+    ON CONFLICT (cpf) DO NOTHING
+    RETURNING *;
   `;
   const values = [
     cliente.nomeCliente,
@@ -65,10 +67,20 @@ const cadastrarClientes = async (cliente) => {
     cliente.cpf,
   ];
   try {
-    await postGres.query(query, values);
-    console.log(`Cliente ${cliente.nomeCliente} cadastrado com sucesso!`);
+    const res = await postGres.query(query, values);
+    if (res.rows.length > 0) {
+      console.log(`Cliente ${cliente.nomeCliente} cadastrado com sucesso!`);
+      return {
+        success: true,
+        cliente: res.rows[0],
+      };
+    } else {
+      console.log(`Cliente com CPF ${cliente.cpf} já está cadastrado.`);
+      return { error: "Cliente já cadastrado" };
+    }
   } catch (err) {
-    console.log(`Erro ao cadastrar cliente ${cliente.nome}:`, err);
+    console.log(`Erro ao cadastrar cliente ${cliente.nomeCliente}:`, err);
+    return { error: "Erro ao cadastrar cliente" };
   }
 };
 

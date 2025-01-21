@@ -17,11 +17,13 @@ O projeto Cantina é uma aplicação web destinada a gerenciar pedidos e estoque
 - **Banco de Dados**: PostgreSQL
 - **Autenticação**: verificando...
 
-- **A Terminar**:
-- [x] Cadastro de Clientes
+- **A Terminar:**
+- [x] Cadastro de Clientes {21/01/2025}
 - [ ] Cadastro de Produtos
 - [ ] Cadastro de Usuários
 - [ ] Autenticação
 - [ ] Relatório de Vendas
 - [ ] Relatório de Estoque
 - [ ] Relatório de Compras dos usuários
+
+- **Data final do Projeto:**

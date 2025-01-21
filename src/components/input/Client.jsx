@@ -1,45 +1,22 @@
 import { useState } from "react";
 import Button from "../buttons";
-import { verificarDadosCliente } from "@/services/verificacoes";
+import {
+  handleChange as handleChangeClient,
+  handleSave as handleSaveClient,
+  handleCancel as handleCancelClient,
+} from "@/services/handle";
 
 const Input = (props) => {
   const [formData, setFormData] = useState({});
 
-  const handleChange = (e, name) => {
-    setFormData({
-      ...formData,
-      [name]: e.target.value,
-    });
-  };
+  const handleChange = (e, name) =>
+    handleChangeClient(e, formData, setFormData, name);
 
   const handleSave = async (e) => {
-    e.preventDefault();
-    const validacao = verificarDadosCliente(formData);
-    if (validacao.error) {
-      alert(validacao.error);
-      return;
-    }
-    alert("Cliente cadastrado com sucesso!");
-    try {
-      const response = await axios.post("/api/registerClient", props);
-      if (response.status === 200 && response.data.success) {
-        return { success: true };
-      } else {
-        return {
-          error:
-            "Erro ao cadastrar cliente. Verifique os dados e tente novamente.",
-        };
-      }
-    } catch (error) {
-      return `Erro ao cadastrar cliente. ${error}`;
-    }
+    await handleSaveClient(e, formData, setFormData);
   };
 
-  const handleCancel = (e) => {
-    e.preventDefault();
-    setFormData({});
-    alert("Ação cancelada");
-  };
+  const handleCancel = (e) => handleCancelClient(e, setFormData);
 
   return (
     <>

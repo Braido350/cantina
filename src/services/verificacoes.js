@@ -24,21 +24,22 @@ const verificarDadosCliente = (props) => {
   return { success: true };
 };
 
-const verificarDadosProduto = async (props) => {
-  const { nomeProduto, quantidade, valor } = props;
+const verificarDadosProduto = (props) => {
+  const { nomeProduto, Quantidade, Valor } = props;
 
-  if (!nomeProduto || !quantidade || !valor) {
-    return "Preencha todos os campos.";
+  if (!nomeProduto || !Quantidade || !Valor) {
+    return { error: "Preencha todos os campos." };
   }
   if (nomeProduto.length < 3) {
-    return "Nome inválido.";
+    return { error: "Nome inválido. Deve ter pelo menos 3 caracteres." };
   }
-  if (quantidade <= 0) {
-    return "Quantidade inválida.";
+  if (Quantidade <= 0 || isNaN(Quantidade)) {
+    return { error: "Quantidade inválida. Deve ser um número maior que zero." };
   }
-  if (valor <= 0) {
-    return "Valor inválido.";
+  if (Valor <= 0 || isNaN(Valor)) {
+    return { error: "Valor inválido. Deve ser um número maior que zero." };
   }
+  return { success: true };
 };
 
 const tratarVendas = async (props) => {
@@ -75,9 +76,26 @@ const verificarClienteExiste = async (cpf) => {
   }
 };
 
+const verificarProdutoExiste = async (nomeProduto) => {
+  const checkQuery = `
+    SELECT * FROM produto WHERE nome = $1;
+  `;
+  const checkValues = [nomeProduto];
+  try {
+    const res = await postGres.query(checkQuery, checkValues);
+    if (res.rows.length > 0) {
+      console.log(`Produto com nome ${nomeProduto} já está cadastrado.`);
+      return { error: "Produto já cadastrado" };
+    }
+  } catch (err) {
+    console.log(`Erro ao verificar produto ${nomeProduto}:`, err);
+    return { error: "Erro ao verificar produto" };
+  }
+};
 export {
   verificarDadosCliente,
   verificarDadosProduto,
   tratarVendas,
   verificarClienteExiste,
+  verificarProdutoExiste,
 };

@@ -10,11 +10,21 @@ export async function GET(request) {
 export async function POST(request) {
   try {
     const body = await request.json();
-    await cadastrarClientes(body);
-    return new Response(JSON.stringify({ success: true, cliente }), {
-      status: 201,
-      headers: { "Content-Type": "application/json" },
-    });
+    const resultado = await cadastrarClientes(body);
+    if (resultado.success) {
+      return new Response(
+        JSON.stringify({ success: true, cliente: resultado.cliente }),
+        {
+          status: 201,
+          headers: { "Content-Type": "application/json" },
+        }
+      );
+    } else {
+      return new Response(JSON.stringify({ error: resultado.error }), {
+        status: 400,
+        headers: { "Content-Type": "application/json" },
+      });
+    }
   } catch (err) {
     return new Response(JSON.stringify({ error: err.message }), {
       status: 500,

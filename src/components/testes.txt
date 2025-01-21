@@ -16,3 +16,5 @@ function fazPost() {
       console.error("Erro:", err);
     });
 }
+
+    alert("Salvando Produto..." + JSON.stringify(formData));
