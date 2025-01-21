@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import React from "react";
-import Input from "./inputShell";
+import Input from "./input/Shell";
 
 function Vender() {
   const [vender, setVender] = useState([
@@ -33,7 +33,7 @@ function Vender() {
           Vender
         </h1>
       </div>
-        <Input imp={vender} />
+      <Input imp={vender} />
     </div>
   );
 }

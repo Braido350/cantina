@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
-import Button from "./buttons";
-import { tratarVendas } from "../services/verificacoes";
+import Button from "../buttons";
+import { tratarVendas } from "../../services/verificacoes";
 
 const Imput = (props) => {
   const [formData, setFormData] = useState({});

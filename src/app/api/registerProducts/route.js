@@ -1,6 +1,6 @@
 "use server";
 "no cache";
-import { cadastrarProdutos, getProdutos } from "../_services/dbFunctions";
+import { cadastrarProdutos, getProdutos } from "../../../services/dbFunctions";
 
 export async function GET(request) {
   const data = await getProdutos();

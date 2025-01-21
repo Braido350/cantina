@@ -1,5 +1,5 @@
 import { useState } from "react";
-import Button from "./buttons";
+import Button from "../buttons";
 import { verificarDadosCliente } from "@/services/verificacoes";
 
 const Input = (props) => {

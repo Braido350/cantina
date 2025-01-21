@@ -1,9 +1,7 @@
-"use client";
-
 import { useState } from "react";
-import Input from "./inputClient";
+import Input from "../input/Client";
 
-export function CadastroClientes() {
+export function CadastroProdutos() {
   const [cadastro, setCadastro] = useState([
     {
       id: 1,
@@ -43,4 +41,4 @@ export function CadastroClientes() {
   );
 }
 
-export default CadastroClientes;
+export default CadastroProdutos;
