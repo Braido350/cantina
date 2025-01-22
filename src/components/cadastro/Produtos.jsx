@@ -8,18 +8,21 @@ export function CadastroProdutos() {
       txt: "Nome do produto",
       placeholder: "Produto",
       name: "nomeProduto",
+      type: "text",
     },
     {
       id: 2,
       txt: "Valor do Produto",
       placeholder: "Ex: 100",
       name: "Valor",
+      type: "Number",
     },
     {
       id: 3,
       txt: "Quantidade",
       placeholder: "Ex: 10",
       name: "Quantidade",
+      type: "Number",
     },
   ]);
 

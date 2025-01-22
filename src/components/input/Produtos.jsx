@@ -54,7 +54,7 @@ const Input = (props) => {
             {item.txt}
           </label>
           <input
-            type="text"
+            type={item.type}
             id={item.name}
             name={item.name}
             placeholder={item.placeholder}

@@ -11,18 +11,14 @@ function Vender() {
       txt: "Nome do produto",
       placeholder: "Nome do Produto",
       name: "produto",
-    },
-    {
-      id: 2,
-      txt: "Cliente",
-      placeholder: "(Opicional)",
-      name: "produto",
+      type: "text",
     },
     {
       id: 3,
       txt: "Quantidade",
       placeholder: "",
       name: "quantidade",
+      type: "Number",
     },
   ]);
 

@@ -8,24 +8,28 @@ export function CadastroClientes() {
       txt: "Nome do Cliente",
       placeholder: "Nome do Cliente",
       name: "nomeCliente",
+      type: "text",
     },
     {
       id: 2,
       txt: "Telefone",
-      placeholder: "Ex: (69) 9 9987-2557",
+      placeholder: "Ex: 69999872557",
       name: "telefone",
+      type: "Number",
     },
     {
       id: 3,
       txt: "Cidade",
       placeholder: "Ex: Ariquemes",
       name: "cidade",
+      type: "text",
     },
     {
       id: 4,
       txt: "CPF",
-      placeholder: "Ex: 000.000.000-00",
+      placeholder: "Ex: 00000000000",
       name: "cpf",
+      type: "Number",
     },
   ]);
 
