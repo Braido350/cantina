@@ -42,6 +42,7 @@ const criarDadosClientes = async () => {
     return "Erro ao criar tabela de clientes:", err;
   }
 };
+
 const cadastrarClientes = async (cliente) => {
   const validacao = verificarDadosCliente(cliente);
   if (validacao.error) {
@@ -84,38 +85,64 @@ const cadastrarClientes = async (cliente) => {
   }
 };
 
-const cadastrarProdutos = async () => {
-  const produtos = verificacoes();
-
+const cadastrarProdutos = async (produtos) => {
   for (const produto of produtos) {
+    const validacao = verificarDadosProduto(produto);
+    if (validacao.error) {
+      console.log(validacao.error);
+      return { error: validacao.error };
+    }
+
     const query = `
       INSERT INTO produtos (nome, quantidade, valor)
       VALUES ($1, $2, $3)
-      ON CONFLICT (nome) DO NOTHING;
+      ON CONFLICT (nome) DO NOTHING
+      RETURNING *;
     `;
     const values = [produto.nome, produto.quantidade, produto.valor];
     try {
-      await postGres.query(query, values);
-      console.log(`Produto ${produto.nome} cadastrado com sucesso!`);
+      const res = await postGres.query(query, values);
+      if (res.rows.length > 0) {
+        console.log(`Produto ${produto.nome} cadastrado com sucesso!`);
+      } else {
+        console.log(`Produto ${produto.nome} já está cadastrado.`);
+      }
     } catch (err) {
       console.error(`Erro ao cadastrar produto ${produto.nome}:`, err);
+      return { error: `Erro ao cadastrar produto ${produto.nome}` };
     }
+  }
+  return { success: true };
+};
+
+const getProdutos = async () => {
+  try {
+    const { rows } = await postGres.query(`SELECT * FROM produtos;`);
+    return rows;
+  } catch (err) {
+    console.error("Erro ao buscar produtos:", err);
+    return { error: "Erro ao buscar produtos" };
   }
 };
 
-const getProdutos = async (req, res) => {
-  const { rows } = await postGres.query(`SELECT * FROM produtos;`);
-  return rows;
-};
-
-const getClientes = async (req, res) => {
-  const { rows } = await postGres.query(`SELECT * FROM client;`);
-  return rows;
+const getClientes = async () => {
+  try {
+    const { rows } = await postGres.query(`SELECT * FROM client;`);
+    return rows;
+  } catch (err) {
+    console.error("Erro ao buscar clientes:", err);
+    return { error: "Erro ao buscar clientes" };
+  }
 };
 
 const testConnection = async () => {
-  const { rows } = await postGres.query("SELECT NOW()");
-  return rows;
+  try {
+    const { rows } = await postGres.query("SELECT NOW()");
+    return rows;
+  } catch (err) {
+    console.error("Erro ao testar conexão:", err);
+    return { error: "Erro ao testar conexão" };
+  }
 };
 
 export {
