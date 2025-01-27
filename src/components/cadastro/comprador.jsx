@@ -13,7 +13,7 @@ export function CadastroProdutos() {
     {
       id: 2,
       txt: "Valor do Produto",
-      placeholder: "Ex: 100",
+      placeholder: "Ex: 99.99",
       name: "Valor",
       type: "Number",
     },

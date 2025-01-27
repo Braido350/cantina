@@ -2,8 +2,9 @@ import React from "react";
 import { useForm, Controller } from "react-hook-form";
 import Select from "react-select/async";
 import { getClientes } from "@/services/getClientes";
+import { getProdutos } from "@/services/getProdutos";
 
-function Vender() {
+function Shell() {
   const {
     register,
     handleSubmit,
@@ -32,34 +33,47 @@ function Vender() {
     );
     callback(filteredClientes);
   };
+  const fetchProdutos = async (inputValue, callback) => {
+    const Produtos = await getProdutos();
+    const filteredProdutos = Produtos.filter((c) =>
+      c.label.toLowerCase().includes(inputValue.toLowerCase())
+    );
+    callback(filteredProdutos);
+  };
 
-  const promiseOptions = debounce(fetchClientes, 1000);
+  const promiseClientes = debounce(fetchClientes, 1000);
+  const promiseProdutos = debounce(fetchProdutos, 1000);
 
-  const onSubmit = (data) => {};
+  const onSubmit = (data) => {
+    console.log(data);
+  };
   const handleCancelar = () => {
     reset({
-      produto: "",
+      produto: null,
       quantidade: 1,
       cliente: null,
     });
   };
 
   return (
-    <div
-      className="box-border h-auto w-[600px] size-auto p-4 border-4 rounded-2xl bg-white"
-      suppressHydrationWarning
-    >
+    <div className="box-border h-auto w-[600px] size-auto p-4 border-4 rounded-2xl bg-white">
       <div className="w-full aspect-auto">
         <h1 className="text-center text-black text-3xl font-semibold mb-6">
           Vender
         </h1>
         <div className="text-gray-700 text-1xl font-semibold mb-2 flex flex-col">
           <label className="px-2">Produto</label>
-          <input
-            className="border-4 border-gray-200 rounded p-2"
-            type="text"
-            placeholder="Produto"
-            {...register("produto", { required: true })}
+          <Controller
+            name="produto"
+            control={control}
+            render={({ field }) => (
+              <Select
+                {...field}
+                cacheOptions
+                defaultOptions
+                loadOptions={promiseProdutos}
+              />
+            )}
           />
           {errors?.produto?.type === "required" && (
             <p className="text-red-400">Informe o Produto.</p>
@@ -90,7 +104,7 @@ function Vender() {
                 {...field}
                 cacheOptions
                 defaultOptions
-                loadOptions={promiseOptions}
+                loadOptions={promiseClientes}
               />
             )}
           />
@@ -102,11 +116,11 @@ function Vender() {
           <button
             onClick={handleSubmit((data) => {
               onSubmit(data);
-              reset();
+              handleCancelar();
             })}
             className="px-6 py-2 bg-green-500 text-white rounded hover:bg-green-600 transition"
           >
-            Vender
+            Shell
           </button>
           <button
             onClick={handleCancelar}
@@ -120,4 +134,4 @@ function Vender() {
   );
 }
 
-export default Vender;
+export default Shell;

@@ -36,6 +36,7 @@ const Input = (props) => {
           />
         </div>
       ))}
+
       <Button
         onSave={handleSave}
         onCancel={handleCancel}
