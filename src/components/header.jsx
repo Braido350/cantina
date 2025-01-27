@@ -1,9 +1,10 @@
 import Link from "next/link";
 import React from "react";
 import Image from "next/image";
-import Produtos from "../../public/produtos.png";
-import Comprador from "../../public/comprador.png";
+import Produtos from "../../public/produtos2.png";
+import Cliente from "../../public/cliente.png";
 import Inventario from "../../public/inventario.png";
+import Etiqueta from "../../public/etiqueta-de-venda.png";
 
 export default function Header() {
   return (
@@ -13,6 +14,18 @@ export default function Header() {
           Projeto Cantina
         </h1>
       </Link>
+      <div className="flex aspect-[4/1] justify-center size-auto">
+        <Link href="/">
+          <button className="bg-blue-500 mx-2 text-white p-2 rounded">
+            <Image
+              src={Etiqueta}
+              alt="Pagina de Vendas"
+              title="Vendas"
+              className="w-10 min-w-5"
+            />
+          </button>
+        </Link>
+      </div>
       <div className="flex aspect-[4/1] justify-center size-auto">
         <Link href="/cadastro/produtos">
           <button className="bg-blue-500 mx-2 text-white p-2 rounded">
@@ -27,8 +40,8 @@ export default function Header() {
         <Link href="/cadastro/clientes">
           <button className="hover:basis mx-2 bg-green-600 text-white p-2 rounded">
             <Image
-              src={Comprador}
-              alt="Cadastrar Comprador"
+              src={Cliente}
+              alt="Cadastrar Cliente"
               title="Cadastrar Cliente"
               className="w-10 min-w-5"
             />
