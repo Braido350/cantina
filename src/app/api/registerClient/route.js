@@ -1,6 +1,6 @@
 "use server";
 "no cache";
-import { clientes } from "../../../services/dbFunctions";
+import { clientes } from "@/services/dbFunctions";
 const { getClientes, cadastrarClientes } = clientes;
 
 export async function GET() {

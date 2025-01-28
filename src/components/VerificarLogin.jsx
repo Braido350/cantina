@@ -1,7 +1,8 @@
 "use client";
 import React from "react";
 import { useForm } from "react-hook-form";
-import Link from "next/link";
+import { isValid } from "../services/isValid";
+import { redirect } from "next/navigation";
 
 export default function VerificarLogin() {
   const {
@@ -13,7 +14,13 @@ export default function VerificarLogin() {
 
   const onSubmit = (data) => {
     console.log(data);
-    const isValidLogin = isValid();
+    const isValidLogin = isValid(data);
+    if (isValidLogin.error) {
+      alert(isValidLogin.error);
+    } else {
+      alert("Login válido!");
+      redirect("/vender");
+    }
   };
   return (
     <form
@@ -46,17 +53,15 @@ export default function VerificarLogin() {
             className="w-full px-4 py-2 text-lg text-gray-800 bg-gray-300 rounded"
           />
         </div>
-        <Link href="/vender" className="flex justify-center mt-6">
-          <button
-            onClick={handleSubmit((data) => {
-              onSubmit(data);
-              reset();
-            })}
-            className="px-20 py-2 bg-green-500 text-white rounded hover:bg-green-600 transition"
-          >
-            Entrar
-          </button>
-        </Link>
+        <button
+          onClick={handleSubmit((data) => {
+            onSubmit(data);
+            reset();
+          })}
+          className="px-20 py-2 bg-green-500 text-white rounded hover:bg-green-600 transition"
+        >
+          Entrar
+        </button>
       </div>
     </form>
   );

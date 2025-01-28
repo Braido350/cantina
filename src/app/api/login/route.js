@@ -1,6 +1,6 @@
 "use server";
 "no cache";
-import { usuarios } from "../../../services/dbFunctions";
+import { usuarios } from "@/services/dbFunctions";
 const { getUsuario, cadastroUsuario } = usuarios;
 
 export async function GET() {
