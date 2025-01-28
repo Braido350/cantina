@@ -38,16 +38,13 @@ export const usuarios = {
       return { error: "Erro ao cadastrar usuario" };
     }
   },
-  validCliente: async (nome_usuario) => {
+  getUsuario: async () => {
     try {
-      const { rows } = await postGres.query(
-        `SELECT * FROM usuarios WHERE nome_usuario = $1;`,
-        [nome_usuario]
-      );
+      const { rows } = await postGres.query(`SELECT * FROM usuarios;`);
       return rows;
     } catch (err) {
-      console.error("Erro ao buscar usuário:", err);
-      return { error: "Erro ao buscar usuário" };
+      console.error("Erro ao buscar produtos:", err);
+      return { error: "Erro ao buscar produtos" };
     }
   },
 };

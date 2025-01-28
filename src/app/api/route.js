@@ -1,8 +1,9 @@
 "use server";
 "no cache";
-import { getProdutos, cadastrarProdutos } from "../../services/dbFunctions";
+import { produtos } from "../../services/dbFunctions";
+const { getProdutos, cadastrarProdutos } = produtos;
 
-export async function GET(request) {
+export async function GET() {
   const data = await getProdutos();
   return new Response(JSON.stringify(data));
 }
