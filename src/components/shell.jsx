@@ -1,3 +1,4 @@
+"use client";
 import React from "react";
 import { useForm, Controller } from "react-hook-form";
 import Select from "react-select/async";
@@ -64,6 +65,7 @@ function Shell() {
         <div className="text-gray-700 text-1xl font-semibold mb-2 flex flex-col">
           <label className="px-2">Produto</label>
           <Controller
+            rules={{ required: true }}
             name="produto"
             control={control}
             render={({ field }) => (
@@ -72,26 +74,13 @@ function Shell() {
                 cacheOptions
                 defaultOptions
                 loadOptions={promiseProdutos}
+                className="w-full text-lg text-gray-800 bg-gray-300 rounded"
+                placeholder="Nome do produto"
               />
             )}
           />
           {errors?.produto?.type === "required" && (
             <p className="text-red-400">Informe o Produto.</p>
-          )}
-        </div>
-        <div className="text-gray-700 text-1xl font-semibold mb-2 flex flex-col">
-          <label className="px-2">Quantidade</label>
-          <input
-            className="border-4 border-gray-200 rounded p-2"
-            type="number"
-            placeholder="Quantidade"
-            {...register("quantidade", { required: true, min: 1 })}
-          />
-          {errors?.quantidade?.type === "required" && (
-            <p className="text-red-400">Informe a Quantidade.</p>
-          )}
-          {errors?.quantidade?.type === "min" && (
-            <p className="text-red-400">Tem que ser maior que 0.</p>
           )}
         </div>
         <div className="text-gray-700 text-1xl font-semibold mb-2 flex flex-col">
@@ -105,12 +94,32 @@ function Shell() {
                 cacheOptions
                 defaultOptions
                 loadOptions={promiseClientes}
+                placeholder="Nome do Cliente (opcional)"
+                className="w-full text-lg text-gray-800 bg-gray-300 rounded"
               />
             )}
           />
-          {errors?.cliente?.type === "required" && (
-            <p className="text-red-400">Informe o Cliente.</p>
-          )}
+          <div className="text-gray-700 text-1xl font-semibold mb-2 flex flex-col mt-2">
+            <label className="px-2">Quantidade</label>
+            <select
+              type="number"
+              defaultValue="1"
+              className="text-gray-700 text-1xl font-semibold mt-1 bg-gray-200 p-2.5 rounded"
+              {...register("quantidade", { required: true, min: 1 })}
+            >
+              <option value="1">1</option>
+              <option value="2">2</option>
+              <option value="3">3</option>
+              <option value="4">4</option>
+              <option value="5">5</option>
+            </select>
+            {errors?.quantidade?.type === "required" && (
+              <p className="text-red-400">Informe a Quantidade.</p>
+            )}
+            {errors?.quantidade?.type === "min" && (
+              <p className="text-red-400">Tem que ser maior que 0.</p>
+            )}
+          </div>
         </div>
         <div className="flex justify-between mt-6">
           <button
@@ -120,7 +129,7 @@ function Shell() {
             })}
             className="px-6 py-2 bg-green-500 text-white rounded hover:bg-green-600 transition"
           >
-            Shell
+            Vender
           </button>
           <button
             onClick={handleCancelar}
