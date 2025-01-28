@@ -1,6 +1,6 @@
 "use client";
 import React from "react";
-import CadastroClientes from "@/components/cadastro/Clientes";
+import CadastroClientes from "@/components/Clientes";
 
 export default function cadastro() {
   return (

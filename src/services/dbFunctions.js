@@ -43,6 +43,25 @@ const criarDadosClientes = async () => {
   }
 };
 
+export const criarDadosVendas = async () => {
+  const query = `
+    CREATE TABLE IF NOT EXISTS vendas (
+      id SERIAL PRIMARY KEY,
+      client_id INT NOT NULL,
+      produto_id INT NOT NULL,
+      quantidade INT NOT NULL,
+      total DECIMAL(10, 2) NOT NULL,
+      data_venda TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+    );
+  `;
+  try {
+    await postGres.query(query);
+    console.log("Tabela de vendas criada!");
+  } catch (err) {
+    console.error("Erro ao criar tabela de vendas:", err);
+  }
+};
+
 const cadastrarClientes = async (cliente) => {
   const validacao = verificarDadosCliente(cliente);
   if (validacao.error) {
@@ -115,6 +134,27 @@ const cadastrarProdutos = async (produtos) => {
   return { success: true };
 };
 
+export const cadastrarVenda = async ({
+  clientId,
+  produtoId,
+  quantidade,
+  total,
+}) => {
+  const query = `
+    INSERT INTO vendas (client_id, produto_id, quantidade, total)
+    VALUES ($1, $2, $3, $4)
+    RETURNING *;
+  `;
+  const values = [clientId, produtoId, quantidade, total];
+  try {
+    const res = await postGres.query(query, values);
+    return res.rows[0];
+  } catch (err) {
+    console.error("Erro ao cadastrar venda:", err);
+    return { error: "Erro ao cadastrar venda" };
+  }
+};
+
 const getProdutos = async () => {
   try {
     const { rows } = await postGres.query(`SELECT * FROM produtos;`);
@@ -153,4 +193,6 @@ export {
   getProdutos,
   getClientes,
   testConnection,
+  criarDadosVendas,
+  cadastrarVenda,
 };
