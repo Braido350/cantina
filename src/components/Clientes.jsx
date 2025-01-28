@@ -1,11 +1,13 @@
 import { useState } from "react";
-import {
-  handleChange as handleChangeClient,
-  handleSave as handleSaveClient,
-  handleCancel as handleCancelClient,
-} from "@/services/handle";
+import { handleClient } from "@/services/handle";
 
 export function CadastroClientes(props) {
+  const {
+    handleChange: handleChangeClient,
+    handleSave: handleSaveClient,
+    handleCancel: handleCancelClient,
+  } = handleClient;
+
   const [formData, setFormData] = useState({});
 
   const handleChange = (e, name) =>

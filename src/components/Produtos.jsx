@@ -1,32 +1,23 @@
 import { useState } from "react";
-import { cadastrarProdutos } from "@/services/dbFunctions";
+import { handleProdutos } from "@/services/handle";
 
 export function CadastroProdutos(props) {
+  const {
+    handleChange: handleChangeClient,
+    handleSave: handleSaveClient,
+    handleCancel: handleCancelClient,
+  } = handleProdutos;
+
   const [formData, setFormData] = useState({});
 
-  const handleChange = (e, name) => {
-    setFormData({
-      ...formData,
-      [name]: e.target.value,
-    });
-  };
+  const handleChange = (e, name) =>
+    handleChangeClient(e, formData, setFormData, name);
 
   const handleSave = async (e) => {
-    e.preventDefault();
-    const response = await cadastrarProdutos([formData]);
-    if (response.error) {
-      console.error(response.error);
-    } else {
-      console.log("Produto cadastrado com sucesso!");
-      setFormData({});
-    }
+    await handleSaveClient(e, formData, setFormData);
   };
 
-  const handleCancel = (e) => {
-    e.preventDefault();
-    setFormData({});
-    console.log("Ação cancelada");
-  };
+  const handleCancel = (e) => handleCancelClient(e, setFormData);
 
   const item = [
     {
