@@ -1,17 +1,21 @@
 "use client";
 import React from "react";
 import { useForm } from "react-hook-form";
+import { handleUsuarios } from "@/services/handle";
 
 export default function CadastroUsuarios() {
+  const { handleSave } = handleUsuarios;
   const {
     register,
     handleSubmit,
     reset,
-    watch,
     formState: { errors },
   } = useForm();
 
-  const onSubmit = (data) => console.log(data);
+  const onSubmit = async (data) => {
+    await handleSave({ preventDefault: () => {} }, data, reset());
+  };
+
   const handleCancelar = () => {
     reset();
     alert("Ação cancelada");
