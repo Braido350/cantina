@@ -9,6 +9,6 @@ export async function GET() {
   const dataUsuarios = await criarDadosUsuarios();
   const dataClientes = await criarDadosClientes();
   const dataProdutos = await criarDadosProdutos();
-  const registerData = { dataClientes, dataProdutos };
+  const registerData = { dataClientes, dataProdutos, dataUsuarios };
   return new Response(JSON.stringify(registerData));
 }

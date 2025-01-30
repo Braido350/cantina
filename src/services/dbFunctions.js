@@ -1,10 +1,7 @@
-"use server";
-
 import postGres from "./db";
 import {
   verificarDadosCliente,
   verificarDadosProduto,
-  tratarVendas,
   verificarClienteExiste,
 } from "./verificacoes.js";
 

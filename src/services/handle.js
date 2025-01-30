@@ -90,3 +90,35 @@ export const handleProdutos = {
     alert("Ação cancelada");
   },
 };
+
+export const handleUsuarios = {
+  handleSave: async (e, formData, setFormData) => {
+    e.preventDefault();
+    const validacao = verificarDadosProduto(formData);
+    if (validacao.error) {
+      alert(validacao.error);
+      return;
+    }
+    alert("Salvando Produto..." + JSON.stringify(formData));
+    try {
+      const response = await axios.post("/api/login", formData);
+      if (response.status === 201 && response.data.success) {
+        alert("Produto cadastrado com sucesso!");
+        setFormData({});
+      } else {
+        alert(
+          "Erro ao cadastrar o Produto. Verifique os dados e tente novamente."
+        );
+      }
+    } catch (error) {
+      if (error.response) {
+        alert(`Erro ao cadastrar o Produto: ${error.response.data.error}`);
+      } else if (error.request) {
+        alert("Erro ao cadastrar o Produto: Nenhuma resposta do servidor.");
+      } else {
+        alert(`Erro ao cadastrar o Produto: ${error.message}`);
+      }
+      console.error("Erro ao cadastrar o Produto:", error);
+    }
+  },
+};

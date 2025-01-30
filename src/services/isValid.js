@@ -3,7 +3,7 @@ import axios from "axios";
 export async function isValid(data) {
   const { nome_usuario, senha } = data;
   try {
-    const response = await axios.post("/api/login");
+    const response = await axios.get("/api/login");
     const cliente = localizaCliente(response.data, nome_usuario, senha);
     if (cliente.error) {
       return cliente;
