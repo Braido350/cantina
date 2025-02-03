@@ -3,7 +3,7 @@ import { NextResponse } from "next/server";
 
 export class ClientesController {
     async index() {
-        const cliente = await prisma.produto.findMany();
+        const cliente = await prisma.cliente.findMany();
         return cliente;
     }
     async store(body: any) {

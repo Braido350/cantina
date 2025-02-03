@@ -3,8 +3,8 @@ import { NextResponse } from "next/server";
 
 export class VendasController {
     async index() {
-        const produtos = await prisma.produto.findMany();
-        return produtos;
+        const venda = await prisma.venda.findMany();
+        return venda;
     }
     async store(body: any) {
         try {
