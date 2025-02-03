@@ -15,14 +15,14 @@ export class UserController {
             return NextResponse.json({ error:`Usuario ${body.nome_usuario} já cadastrado` }, {status: 400}); 
         }
         const hash_password = await hash(senha, 1);
-        await prisma.usuario.create({
+        const NovoUsuario = await prisma.usuario.create({
             data: {
                 nome,
                 nome_usuario,
                 senha: hash_password,
             },
         });
-        return NextResponse.json({ user }, {status: 201});
+        return NextResponse.json({ NovoUsuario }, {status: 201});
     } catch (error){
         return NextResponse.json({ error:`Usuario ${body.nome_usuario} já cadastrado` }, {status: 400}); 
     }
