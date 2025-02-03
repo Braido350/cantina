@@ -23,7 +23,7 @@ model Usuario {
 
 model Produto {
   id         Int    @id @default(autoincrement())
-  nome       String
+  nome       String @unique
   quantidade Int
   valor      Float
 }

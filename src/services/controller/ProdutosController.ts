@@ -9,7 +9,12 @@ export class ProdutosController {
     async store(body: any) {
         try {
             const { nome, quantidade, valor } = body;
-            const produto = await prisma.produto.create({
+            console.dir(body);
+            const produto = await prisma.produto.findUnique({where:{nome}});
+            if(produto){
+                return NextResponse.json({ error:`Usuario ${body.nome} já cadastrado` }, {status: 400}); 
+            }
+            await prisma.produto.create({
                 data: {
                     nome,
                     quantidade,

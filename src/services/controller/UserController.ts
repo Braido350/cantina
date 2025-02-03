@@ -10,8 +10,12 @@ export class UserController {
     async store(body: any) {
         try{
         const { nome, nome_usuario, senha } = body;
+        const user = await prisma.usuario.findUnique({where:{nome_usuario}});
+        if(user){
+            return NextResponse.json({ error:`Usuario ${body.nome_usuario} já cadastrado` }, {status: 400}); 
+        }
         const hash_password = await hash(senha, 1);
-        const user = await prisma.usuario.create({
+        await prisma.usuario.create({
             data: {
                 nome,
                 nome_usuario,
