@@ -3,10 +3,10 @@ import { prisma } from "../utils/prisma";
 import { NextResponse, NextRequest } from "next/server";
 
 export class UserController {
-        async index() {
-            const users = await prisma.usuario.findMany();
-            return users;
-        }
+    async index() {
+        const users = await prisma.usuario.findMany();
+        return users;
+    }
     async store(body: any) {
         try{
         const { nome, nome_usuario, senha } = body;

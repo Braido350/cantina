@@ -1,35 +1,18 @@
 "use server";
 "no cache";
-import { produtos } from "@/services/dbFunctions";
-const { getProdutos, cadastrarProdutos } = produtos;
+import { postGres } from "@/services/db";
 
 export async function GET() {
-  const data = await getProdutos();
-  return new Response(JSON.stringify(data));
+  const data = await testConnection();
+  return NextResponse.json(data);
 }
 
-export async function POST(request) {
+async function testConnection() {
   try {
-    const body = await request.json();
-    const resultado = await cadastrarProdutos(body);
-    if (resultado.success) {
-      return new Response(
-        JSON.stringify({ success: true, produto: resultado.produto }),
-        {
-          status: 201,
-          headers: { "Content-Type": "application/json" },
-        }
-      );
-    } else {
-      return new Response(JSON.stringify({ error: resultado.error }), {
-        status: 400,
-        headers: { "Content-Type": "application/json" },
-      });
-    }
+    const { rows } = await postGres.query("SELECT NOW()");
+    return rows;
   } catch (err) {
-    return new Response(JSON.stringify({ error: err.message }), {
-      status: 500,
-      headers: { "Content-Type": "application/json" },
-    });
+    console.error("Erro ao testar conexão:", err);
+    return { error: "Erro ao testar conexão" };
   }
 }

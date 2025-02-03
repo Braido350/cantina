@@ -1,35 +1,25 @@
 "use server";
 "no cache";
-import { clientes } from "@/services/dbFunctions";
-const { getClientes, cadastrarClientes } = clientes;
+
+import { ClientesController } from "@/services/controller/ClientesController";
+import { NextResponse } from "next/server";
+
+const controller = new ClientesController();
 
 export async function GET() {
-  const data = await getClientes();
-  return new Response(JSON.stringify(data));
+  const data = await controller.index();
+  return NextResponse.json(data);
 }
 
-export async function POST(request) {
+export async function POST(req) {
   try {
-    const body = await request.json();
-    const resultado = await cadastrarClientes(body);
-    if (resultado.success) {
-      return new Response(
-        JSON.stringify({ success: true, cliente: resultado.cliente }),
-        {
-          status: 201,
-          headers: { "Content-Type": "application/json" },
-        }
-      );
-    } else {
-      return new Response(JSON.stringify({ error: resultado.error }), {
-        status: 400,
-        headers: { "Content-Type": "application/json" },
-      });
-    }
-  } catch (err) {
-    return new Response(JSON.stringify({ error: err.message }), {
-      status: 500,
-      headers: { "Content-Type": "application/json" },
-    });
+    const body = await req.json();
+    return controller.store(body);
+  } catch (error) {
+    console.error("Erro ao cadastrar cliente", error);
+    return NextResponse.json(
+      { error: "Invalid request body" },
+      { status: 400 }
+    );
   }
 }
