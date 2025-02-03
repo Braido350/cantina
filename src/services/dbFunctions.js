@@ -8,7 +8,7 @@ import {
 export const usuarios = {
   criarDadosUsuarios: async () => {
     const query = `
-     CREATE TABLE IF NOT EXISTS usuarios (
+     CREATE TABLE IF NOT EXISTS usuario (
        id SERIAL PRIMARY KEY,
        nome VARCHAR(256) NOT NULL,
        nome_usuario VARCHAR(256) NOT NULL UNIQUE,
@@ -23,7 +23,7 @@ export const usuarios = {
     }
   },
   cadastroUsuario: async (nome, nome_usuario, senha) => {
-    const query = `INSERT INTO usuarios (nome, nome_usuario, senha)
+    const query = `INSERT INTO usuario (nome, nome_usuario, senha)
     VALUES ($1, $2, $3)
     RETURNING *;`;
     const value = [nome, nome_usuario, senha];
@@ -37,11 +37,11 @@ export const usuarios = {
   },
   getUsuario: async () => {
     try {
-      const { rows } = await postGres.query(`SELECT * FROM usuarios;`);
+      const { rows } = await postGres.query(`SELECT * FROM "Usuario";`);
       return rows;
     } catch (err) {
-      console.error("Erro ao buscar produtos:", err);
-      return { error: "Erro ao buscar produtos" };
+      console.error("Erro ao buscar usuarios:", err);
+      return { error: "Erro ao buscar usuarios" };
     }
   },
 };
