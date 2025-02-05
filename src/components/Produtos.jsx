@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { handleProdutos } from "@/services/handle";
-import { Itens } from "./itens";
+import { Itens } from "../services/itens";
 
 export function CadastroProdutos(props) {
   const {

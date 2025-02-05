@@ -1,4 +1,5 @@
 "use client";
+import axios from "axios";
 import { createContext, useEffect } from "react";
 import { useState } from "react";
 
@@ -20,7 +21,7 @@ export const AuthProvider = ({ children }) => {
   }, []);
 
   const Signin = async ({ name_usuario, senha }) => {
-    const response = await fetch("/api/login", {
+    const response = await axios.post("/api/login", {
       name_usuario,
       senha,
     });
@@ -29,8 +30,11 @@ export const AuthProvider = ({ children }) => {
       alert(response.data.error);
     } else {
       setUser(response.data);
+      axios.defaults.headers.common[
+        "Authorization"
+      ] = `Bearer ${response.data.token}`;
       localStorage.setItem("@Auth:token", response.data.token);
-      localStorage.setItem("@Auth:user", response.data.name_usuario);
+      localStorage.setItem("@Auth:name_usuario", response.data.name_usuario);
     }
   };
 
