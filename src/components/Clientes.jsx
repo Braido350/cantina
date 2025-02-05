@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { handleClient } from "@/services/handle";
+import { Itens } from "./itens";
 
 export function CadastroClientes(props) {
   const {
@@ -7,6 +8,8 @@ export function CadastroClientes(props) {
     handleSave: handleSaveClient,
     handleCancel: handleCancelClient,
   } = handleClient;
+
+  const { Cliente: item } = Itens;
 
   const [formData, setFormData] = useState({});
 
@@ -18,37 +21,6 @@ export function CadastroClientes(props) {
   };
 
   const handleCancel = (e) => handleCancelClient(e, setFormData);
-
-  const item = [
-    {
-      id: 1,
-      txt: "Nome do Cliente",
-      placeholder: "Nome do Cliente",
-      name: "nomeCliente",
-      type: "text",
-    },
-    {
-      id: 2,
-      txt: "Telefone",
-      placeholder: "Ex: 69999872557",
-      name: "telefone",
-      type: "Number",
-    },
-    {
-      id: 3,
-      txt: "Cidade",
-      placeholder: "Ex: Ariquemes",
-      name: "cidade",
-      type: "text",
-    },
-    {
-      id: 4,
-      txt: "CPF",
-      placeholder: "Ex: 00000000000",
-      name: "cpf",
-      type: "Number",
-    },
-  ];
 
   return (
     <div className="box-border h-auto w-[600px] size-auto p-4 border-4 rounded-2xl bg-white">

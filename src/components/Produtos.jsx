@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { handleProdutos } from "@/services/handle";
+import { Itens } from "./itens";
 
 export function CadastroProdutos(props) {
   const {
@@ -7,6 +8,8 @@ export function CadastroProdutos(props) {
     handleSave: handleSaveClient,
     handleCancel: handleCancelClient,
   } = handleProdutos;
+
+  const { Produtos: item } = Itens;
 
   const [formData, setFormData] = useState({});
 
@@ -18,30 +21,6 @@ export function CadastroProdutos(props) {
   };
 
   const handleCancel = (e) => handleCancelClient(e, setFormData);
-
-  const item = [
-    {
-      id: 1,
-      txt: "Nome do produto",
-      placeholder: "Produto",
-      name: "nomeProduto",
-      type: "text",
-    },
-    {
-      id: 2,
-      txt: "Valor do Produto",
-      placeholder: "Ex: 99.99",
-      name: "valor",
-      type: "Number",
-    },
-    {
-      id: 3,
-      txt: "Quantidade",
-      placeholder: "Ex: 10",
-      name: "quantidade",
-      type: "Number",
-    },
-  ];
 
   return (
     <div className="box-border h-auto w-[600px] size-auto p-4 border-4 rounded-2xl bg-white">

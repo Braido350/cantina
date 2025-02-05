@@ -94,11 +94,11 @@ export const handleProdutos = {
 export const handleUsuarios = {
   handleSave: async (e, formData, setFormData) => {
     e.preventDefault();
-    const validacao = verificarDadosProduto(formData);
-    if (validacao.error) {
-      alert(validacao.error);
-      return;
-    }
+    // const validacao = verificarDadosProduto(formData);
+    // if (validacao.error) {
+    //   alert(validacao.error);
+    //   return;
+    // }
     alert("Salvando Produto..." + JSON.stringify(formData));
     try {
       const response = await axios.post("/api/login", formData);

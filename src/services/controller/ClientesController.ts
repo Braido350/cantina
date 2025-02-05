@@ -19,7 +19,7 @@ export class ClientesController {
           { status: 400 }
         );
       }
-      const newCliente = await prisma.cliente.create({
+      const NewCliente = await prisma.cliente.create({
         data: {
           nome,
           telefone,
@@ -27,7 +27,7 @@ export class ClientesController {
           cpf,
         },
       });
-      return NextResponse.json({ newCliente }, { status: 201 });
+      return NextResponse.json({ nome }, { status: 201 });
     } catch (error) {
       return NextResponse.json(
         { error: "Erro ao cadastrar cliente" },
