@@ -1,15 +1,15 @@
 import { useState } from "react";
-import { handleClient } from "@/services/handle";
-import { Itens } from "../services/itens";
+import { handleProdutos } from "@/services/handle";
+import { Itens } from "../../../services/itens";
 
-export function CadastroClientes(props) {
+export function CadastroProdutos(props) {
   const {
     handleChange: handleChangeClient,
     handleSave: handleSaveClient,
     handleCancel: handleCancelClient,
-  } = handleClient;
+  } = handleProdutos;
 
-  const { Cliente: item } = Itens;
+  const { Produtos: item } = Itens;
 
   const [formData, setFormData] = useState({});
 
@@ -26,7 +26,7 @@ export function CadastroClientes(props) {
     <div className="box-border h-auto w-[600px] size-auto p-4 border-4 rounded-2xl bg-white">
       <div className="w-full aspect-auto">
         <h1 className="text-center text-black text-3xl font-semibold mb-6">
-          Cadastrar Clientes
+          Cadastrar Produtos
         </h1>
       </div>
       {item.map((item) => (
@@ -48,22 +48,22 @@ export function CadastroClientes(props) {
 
       <div className="flex justify-between mt-6">
         <button
-          onClick={handleSave}
+          onClick={handleCancel}
           type="button"
           className="px-6 py-2 bg-green-500 text-white rounded hover:bg-green-600 transition"
         >
-          Salvar
+          Cancelar
         </button>
         <button
-          onClick={handleCancel}
+          onClick={handleSave}
           type="button"
           className="px-6 py-2 bg-red-500 text-white rounded hover:bg-red-600 transition"
         >
-          Cancelar
+          Salvar
         </button>
       </div>
     </div>
   );
 }
 
-export default CadastroClientes;
+export default CadastroProdutos;

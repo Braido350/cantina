@@ -1,8 +1,9 @@
 "use client";
-import React from "react";
+import React, { useContext } from "react";
 import { useForm } from "react-hook-form";
-import { isValid } from "../services/isValid";
 import { redirect } from "next/navigation";
+import { AuthContext } from "@/context/auth";
+import Form from "next/form";
 
 export default function VerificarLogin() {
   const {
@@ -12,19 +13,15 @@ export default function VerificarLogin() {
     formState: { errors },
   } = useForm();
 
-  const onSubmit = (data) => {
-    console.log(data);
-    const isValidLogin = isValid(data);
-    if (isValidLogin.error) {
-      alert(isValidLogin.error);
-    } else {
-      alert("Login válido!");
-      redirect("/vender");
-    }
+  const { signIn } = useContext(AuthContext);
+
+  const onSubmit = async (data) => {
+    await handleSave({ preventDefault: () => {} }, data, reset());
   };
+
   return (
     <form
-      onSubmit={handleSubmit(onSubmit)}
+      onSubmit={handleSubmit}
       className="box-border h-auto w-[400px] size-auto p-4 border-4 rounded-2xl bg-white"
     >
       <div className="w-full aspect-auto">
@@ -57,6 +54,7 @@ export default function VerificarLogin() {
           onClick={handleSubmit((data) => {
             onSubmit(data);
             reset();
+            console.log(data);
           })}
           className="px-20 py-2 bg-green-500 text-white rounded hover:bg-green-600 transition"
         >

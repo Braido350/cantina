@@ -29,7 +29,7 @@ export const AuthProvider = ({ children }) => {
     if (response.data.error) {
       alert(response.data.error);
     } else {
-      setUser(response.data);
+      setUser(response.data.name_usuario);
       axios.defaults.headers.common[
         "Authorization"
       ] = `Bearer ${response.data.token}`;
