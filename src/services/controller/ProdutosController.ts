@@ -1,23 +1,23 @@
-import { prisma } from "../utils/prisma";
+import { db } from "../utils/prisma";
 import { NextResponse } from "next/server";
 
 export class ProdutosController {
   async index() {
-    const produtos = await prisma.produto.findMany();
+    const produtos = await db.produto.findMany();
     return produtos;
   }
   async store(body: any) {
     try {
       const { nome, quantidade, valor } = body;
       console.dir(body);
-      const produto = await prisma.produto.findUnique({ where: { nome } });
+      const produto = await db.produto.findUnique({ where: { nome } });
       if (produto) {
         return NextResponse.json(
           { error: `Produto ${body.nome} já cadastrado` },
           { status: 400 }
         );
       }
-      const NewProduto = await prisma.produto.create({
+      const NewProduto = await db.produto.create({
         data: {
           nome,
           quantidade: parseInt(quantidade, 10),

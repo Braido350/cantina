@@ -1,12 +1,12 @@
 import { compare } from "bcryptjs";
-import { prisma } from "../utils/prisma";
+import { db } from "../utils/prisma";
 import { NextResponse } from "next/server";
 import { sign } from "jsonwebtoken";
 
 export class AuthController {
   async authenticate(body: any) {
     const { nome_usuario, senha } = body;
-    const user = await prisma.usuario.findUnique({ where: { nome_usuario } });
+    const user = await db.usuario.findUnique({ where: { nome_usuario } });
 
     if (!user) {
       return NextResponse.json(

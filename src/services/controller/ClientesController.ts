@@ -1,16 +1,16 @@
-import { prisma } from "../utils/prisma";
+import { db } from "../utils/prisma";
 import { NextResponse } from "next/server";
 
 export class ClientesController {
   async index() {
-    const cliente = await prisma.cliente.findMany();
+    const cliente = await db.cliente.findMany();
     return cliente;
   }
 
   async store(body: any) {
     try {
       const { nome, telefone, cidade, cpf } = body;
-      const existingCliente = await prisma.cliente.findUnique({
+      const existingCliente = await db.cliente.findUnique({
         where: { cpf },
       });
       if (existingCliente) {
@@ -19,7 +19,7 @@ export class ClientesController {
           { status: 400 }
         );
       }
-      const NewCliente = await prisma.cliente.create({
+      const NewCliente = await db.cliente.create({
         data: {
           nome,
           telefone,
