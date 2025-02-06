@@ -9,7 +9,7 @@ export function CadastroClientes(props) {
     handleCancel: handleCancelClient,
   } = handleClient;
 
-  const { Cliente: item } = Itens;
+  const { Clientes: item } = Itens;
 
   const [formData, setFormData] = useState({});
 
@@ -25,15 +25,11 @@ export function CadastroClientes(props) {
   return (
     <div className="box-border h-auto w-[600px] size-auto p-4 border-4 rounded-2xl bg-white">
       <div className="w-full aspect-auto">
-        <h1 className="text-center text-black text-3xl font-semibold mb-6">
-          Cadastrar Clientes
-        </h1>
+        <h2>Cadastrar Clientes</h2>
       </div>
       {item.map((item) => (
         <div className="mb-4" key={item.id}>
-          <label className="block text-gray-700 text-1xl font-medium mb-2">
-            {item.txt}
-          </label>
+          <label>{item.txt}</label>
           <input
             type={item.type}
             id={item.name}

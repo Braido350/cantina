@@ -19,11 +19,18 @@ O projeto Cantina é uma aplicação web destinada a gerenciar pedidos e estoque
 
 - **A Terminar:**
 - [x] Cadastro de Clientes {21/01/2025}
-- [x] Cadastro de Produtos
-- [x] Cadastro de Usuários
+- [x] Cadastro de Produtos {05/02/2025}
+- [x] Cadastro de Usuários {05/02/2025}
 - [ ] Autenticação
+- [ ] Logica das vendas de produtos
 - [ ] Relatório de Vendas
 - [ ] Relatório de Estoque
 - [ ] Relatório de Compras dos usuários
 
 - **Data final do Projeto:**
+
+<!-- cliente vendedor produtos vendidos e venda -->
+
+<!-- vendaID = clienteID + vendedorID -->
+
+<!-- produtosVendidos = vendaID + produtoID + quantidade + valorProduto + valorTotal + ValorDesconto + valorLiquido -->

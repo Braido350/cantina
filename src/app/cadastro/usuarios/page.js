@@ -1,5 +1,5 @@
 import React from "react";
-import CadastroUsuarios from "@/components/Usuarios";
+import CadastroUsuarios from "./Usuarios";
 
 export default function cadastro() {
   return (

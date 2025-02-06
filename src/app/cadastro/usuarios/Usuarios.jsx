@@ -27,20 +27,15 @@ export default function CadastroUsuarios() {
       className="box-border h-auto w-[600px] size-auto p-4 border-4 rounded-2xl bg-white"
     >
       <div className="w-full aspect-auto">
-        <h1 className="text-center text-black text-3xl font-semibold mb-6">
-          Cadastro de Usuário
-        </h1>
+        <h2>Cadastro de Usuário</h2>
       </div>
       <div className="flex flex-col gap-3">
         <div>
-          <label className="text-gray-700 text-1xl font-semibold flex flex-col ">
-            Nome Completo
-          </label>
+          <label>Nome Completo</label>
           <input
             type="text"
             {...register("nome", { required: true })}
             placeholder="Nome"
-            className="w-full px-4 py-2 text-lg text-gray-800 bg-gray-300 rounded"
           />
           {errors?.quantidade?.type === "required" && (
             <p className="text-red-400">Informe a Quantidade.</p>
@@ -50,25 +45,19 @@ export default function CadastroUsuarios() {
           )}
         </div>
         <div>
-          <label className="text-gray-700 text-1xl font-semibold flex flex-col ">
-            Nome de usuário
-          </label>
+          <label>Nome de usuário</label>
           <input
             type="text"
             {...register("nome_usuario", { required: true, minLength: 4 })}
             placeholder="Nome do Usuário"
-            className="w-full px-4 py-2 text-lg text-gray-800 bg-gray-300 rounded"
           />
         </div>
         <div>
-          <label className="text-gray-700 text-1xl font-semibold flex flex-col">
-            Senha
-          </label>
+          <label>Senha</label>
           <input
             type="text"
             {...register("senha", { required: true, minLength: 6 })}
             placeholder="sua senha"
-            className="w-full px-4 py-2 text-lg text-gray-800 bg-gray-300 rounded"
           />
           <p className="text-gray-400 text-sm">
             NÃO coloque caracteres especiais como # $ @ !

@@ -10,12 +10,12 @@ export default function Header() {
   return (
     <header className="size-full flex justify-center bg-blue-300 py-2">
       <Link href="/">
-        <h1 className="text-black hidden sm:block text-xl md:text-2xl lg:text-3xl font-bold px-6 py-3 justify-center">
+        <h1 className="text-black hidden sm:block text-xl md:text-2xl lg:text-3xl font-bold pe-6 pt-3 justify-center">
           Projeto Cantina
         </h1>
       </Link>
       <div className="flex aspect-[4/1] justify-center size-auto">
-        <Link href="/">
+        <Link href="/vender">
           <button className="bg-blue-500 mx-2 text-white p-2 rounded">
             <Image
               src={Etiqueta}

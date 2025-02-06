@@ -1,5 +1,5 @@
 import React from "react";
-import Shell from "@/components/shell";
+import Shell from "@/app/vender/shell";
 
 export default function Vender() {
   return (

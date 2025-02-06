@@ -19,3 +19,19 @@ body {
   background: var(--foreground);
   font-family: Arial, Helvetica, sans-serif;
 }
+
+input{
+  @apply w-full px-4 py-2 text-lg text-gray-800 bg-gray-200 rounded;
+}
+
+label{
+  @apply text-gray-800 text-xl font-semibold flex flex-col;
+}
+
+h1{
+  @apply text-black hidden sm:block text-xl md:text-2xl lg:text-3xl font-bold pe-6 pt-3 justify-center
+}
+
+h2{
+  @apply text-center text-black text-3xl font-semibold mb-6
+}

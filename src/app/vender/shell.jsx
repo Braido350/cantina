@@ -59,11 +59,9 @@ function Shell() {
   return (
     <div className="box-border h-auto w-[600px] size-auto p-4 border-4 rounded-2xl bg-white">
       <div className="w-full aspect-auto">
-        <h1 className="text-center text-black text-3xl font-semibold mb-6">
-          Vender
-        </h1>
+        <h2>Vender</h2>
         <div className="text-gray-700 text-1xl font-semibold mb-2 flex flex-col">
-          <label className="px-2">Produto</label>
+          <label>Produto</label>
           <Controller
             rules={{ required: true }}
             name="produto"
@@ -84,7 +82,7 @@ function Shell() {
           )}
         </div>
         <div className="text-gray-700 text-1xl font-semibold mb-2 flex flex-col">
-          <label className="px-2">Cliente</label>
+          <label>Cliente</label>
           <Controller
             name="cliente"
             control={control}
@@ -100,7 +98,7 @@ function Shell() {
             )}
           />
           <div className="text-gray-700 text-1xl font-semibold mb-2 flex flex-col mt-2">
-            <label className="px-2">Quantidade</label>
+            <label>Quantidade</label>
             <select
               type="number"
               defaultValue="1"
