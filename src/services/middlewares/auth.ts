@@ -1,4 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
+import { cookies } from "next/headers";
 import { verify } from "jsonwebtoken";
 
 type TokenPayload = {
@@ -7,19 +8,18 @@ type TokenPayload = {
   exp: number;
 };
 
-export function AuthMiddlwares(req: NextRequest) {
-  const authorization = req.headers.get("authorization");
-  if (!authorization) {
+export async function AuthMiddlwares(req: NextRequest) {
+  const cookieStore = await cookies();
+  const cookieToken = cookieStore.get("token")?.value;
+
+  if (!cookieToken) {
     return NextResponse.json({ error: "Token não informado" }, { status: 401 });
   }
 
   try {
-    const token = authorization.split(" ")[1];
-    const decoded = verify(token, process.env.HASH);
+    const decoded = verify(cookieToken, process.env.HASH);
     const { id } = decoded as TokenPayload;
-
     req.headers.set("userId", id);
-
     return NextResponse.next();
   } catch (error) {
     return NextResponse.json({ error: "Token inválido" }, { status: 401 });

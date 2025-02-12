@@ -27,6 +27,44 @@ O projeto Cantina é uma aplicação web destinada a gerenciar pedidos e estoque
 - [ ] Relatório de Estoque
 - [ ] Relatório de Compras dos usuários
 
+### 1. Banco de Dados
+
+Crie as seguintes tabelas (ou modelos, se estiver usando ORM):
+
+- **Clientes**
+
+  - id (PK)
+  - nome
+  - email
+  - senha
+
+- **Vendedores**
+
+  - id (PK)
+  - nome
+  - email
+  - senha
+
+- **Produtos**
+
+  - id (PK)
+  - nome
+  - descrição
+  - preço
+  - idVendedor (FK referenciando Vendedores)
+
+- **Pedidos**
+
+  - id (PK)
+  - idCliente (FK referenciando Clientes)
+  - idProduto (FK referenciando Produtos)
+  - data
+  - quantidade
+  - valorProduto
+  - valorTotal
+  - valorDesconto
+  - valorLiquido
+
 - **Data final do Projeto:**
 
 <!-- cliente vendedor produtos vendidos e venda -->

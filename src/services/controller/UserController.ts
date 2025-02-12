@@ -10,13 +10,19 @@ export class UserController {
   async store(body: any) {
     try {
       const { nome, nome_usuario, senha } = body;
+      if (!nome || !nome_usuario || !senha) {
+        throw new Error("Campos obrigatórios não preenchidos");
+      }
+
       const user = await db.usuario.findUnique({ where: { nome_usuario } });
+
       if (user) {
         return NextResponse.json(
           { error: `Usuario ${body.nome_usuario} já cadastrado` },
           { status: 400 }
         );
       }
+
       const hash_password = await hash(senha, 1);
       const NovoUsuario = await db.usuario.create({
         data: {
@@ -25,6 +31,7 @@ export class UserController {
           senha: hash_password,
         },
       });
+
       return NextResponse.json({ NovoUsuario }, { status: 201 });
     } catch (error) {
       return NextResponse.json(

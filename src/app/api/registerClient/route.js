@@ -1,6 +1,6 @@
 "use server";
 "no cache";
-
+import { AuthMiddlwares } from "@/services/middlewares/auth";
 import { ClientesController } from "@/services/controller/ClientesController";
 import { NextResponse } from "next/server";
 

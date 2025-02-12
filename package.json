@@ -19,6 +19,7 @@
     "express-handlebars": "^8.0.1",
     "jsonwebtoken": "^9.0.2",
     "next": "15.1.1",
+    "next-auth": "^5.0.0-beta.25",
     "pg": "^8.13.1",
     "prisma": "^6.3.0",
     "react": "^19.0.0",

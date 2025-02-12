@@ -2,7 +2,12 @@ import axios from "axios";
 
 export async function getClientes() {
   try {
-    const response = await axios.get("/api/registerClient");
+    const token = localStorage.getItem("@Auth:token");
+    const response = await axios.get("/api/registerClient", {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
     const clientes = response.data.map((cliente) => ({
       value: cliente.id,
       label: cliente.nome,
