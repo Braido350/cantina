@@ -10,6 +10,7 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
         senha: {},
       },
       authorize: async (credentials) => {
+        console.log("credentials auth");
         console.log(credentials);
         // lógica de autenticação
         // procura usuario com credenciais
@@ -21,8 +22,13 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
 
         // se não autenticado, retorne null
 
+        // se não autenticado, retorne null
+        if (!user) {
+          return null;
+        }
+
         // se autenticado, retorne user
-        return null;
+        return user;
       },
     }),
   ],

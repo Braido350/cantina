@@ -10,7 +10,7 @@ type User = {
 export async function findUserByCredentials(
   nome_usuario: string,
   senha: string
-): Promise<User | null> {
+): Promise<User | false> {
   const user = await db.usuario.findFirst({
     where: {
       nome_usuario,
@@ -18,7 +18,7 @@ export async function findUserByCredentials(
   });
 
   if (!user) {
-    return null;
+    return false;
   }
 
   const passwoordMatch = compareSync(senha, user.senha);
@@ -28,5 +28,5 @@ export async function findUserByCredentials(
     return { name: user.nome, nome_usuario: user.nome_usuario };
   }
 
-  return null;
+  return false;
 }
