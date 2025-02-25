@@ -5,6 +5,7 @@ export default function Home() {
   return (
     <div className="w-full h-full flex justify-center">
 <<<<<<< HEAD
+<<<<<<< HEAD
       <div className="flex justify-center itens-center size-full">
         <VerificarLogin />
 =======
@@ -14,6 +15,10 @@ export default function Home() {
           <VerificarLogin />
         </div>
 >>>>>>> b1ee5f7 (refatora autenticação para usar axios, melhora tratamento de erros e ajusta estrutura de componentes)
+=======
+      <div className="flex justify-center itens-center size-full">
+        <VerificarLogin />
+>>>>>>> f289c2b (funcionando)
       </div>
     </div>
   );

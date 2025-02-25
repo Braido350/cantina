@@ -1,6 +1,9 @@
 "use client";
 
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> f289c2b (funcionando)
 import { AuthContext } from "../context/auth";
 import React, { useContext } from "react";
 import Form from "next/form";
