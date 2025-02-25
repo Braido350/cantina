@@ -2,8 +2,8 @@
 import React from "react";
 import { useForm, Controller } from "react-hook-form";
 import Select from "react-select/async";
-import { getClientes } from "@/services/getClientes";
-import { getProdutos } from "@/services/getProdutos";
+import { getClientes } from "../../services/getClientes";
+import { getProdutos } from "../../services/getProdutos";
 
 function Shell() {
   const {

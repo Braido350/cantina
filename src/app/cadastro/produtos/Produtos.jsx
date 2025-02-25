@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { handleProdutos } from "@/services/handle";
+import { handleProdutos } from "../../../services/handle";
 import { Itens } from "../../../services/itens";
 
 export function CadastroProdutos(props) {

@@ -1,5 +1,5 @@
 import axios from "axios";
-import { verificarDadosCliente } from "@/services/verificacoes";
+import { verificarDadosCliente } from "./verificacoes";
 
 export const handleClient = {
   handleChange: (e, formData, setFormData, name) => {
