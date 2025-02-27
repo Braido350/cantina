@@ -1,5 +1,5 @@
 import axios from "axios";
-import { verificarDadosCliente } from "./verificacoes";
+import { verificarDadosCliente, verificarDadosProduto } from "./verificacoes";
 
 export const handleClient = {
   handleChange: (e, formData, setFormData, name) => {
@@ -12,7 +12,7 @@ export const handleClient = {
   handleSave: async (e, formData, setFormData) => {
     e.preventDefault();
     const validacao = verificarDadosCliente(formData);
-    if (validacao.error) {
+    if (!validacao.success) {
       alert(validacao.error);
       return;
     }
@@ -56,8 +56,9 @@ export const handleProdutos = {
 
   handleSave: async (e, formData, setFormData) => {
     e.preventDefault();
+    console.log(formData);
     const validacao = verificarDadosProduto(formData);
-    if (validacao.error) {
+    if (!validacao.success) {
       alert(validacao.error);
       return;
     }
@@ -94,31 +95,28 @@ export const handleProdutos = {
 export const handleUsuarios = {
   handleSave: async (e, formData, setFormData) => {
     e.preventDefault();
-    // const validacao = verificarDadosProduto(formData);
-    // if (validacao.error) {
-    //   alert(validacao.error);
-    //   return;
-    // }
-    alert("Salvando Produto..." + JSON.stringify(formData));
+    // Caso seja necessário implementar validações para usuário, faça aqui.
+    alert("Salvando Usuário..." + JSON.stringify(formData));
     try {
       const response = await axios.post("/api/login", formData);
-      if (response.status === 201 && response.data.success) {
-        alert("Produto cadastrado com sucesso!");
+      // No login o status pode ser 200 ou outro valor definido pela API.
+      if (response.status === 200 && response.data.success) {
+        alert("Usuário autenticado com sucesso!");
         setFormData({});
       } else {
         alert(
-          "Erro ao cadastrar o Produto. Verifique os dados e tente novamente."
+          "Erro ao autenticar o Usuário. Verifique os dados e tente novamente."
         );
       }
     } catch (error) {
       if (error.response) {
-        alert(`Erro ao cadastrar o Produto: ${error.response.data.error}`);
+        alert(`Erro ao autenticar o Usuário: ${error.response.data.error}`);
       } else if (error.request) {
-        alert("Erro ao cadastrar o Produto: Nenhuma resposta do servidor.");
+        alert("Erro ao autenticar o Usuário: Nenhuma resposta do servidor.");
       } else {
-        alert(`Erro ao cadastrar o Produto: ${error.message}`);
+        alert(`Erro ao autenticar o Usuário: ${error.message}`);
       }
-      console.error("Erro ao cadastrar o Produto:", error);
+      console.error("Erro ao autenticar o Usuário:", error);
     }
   },
 };

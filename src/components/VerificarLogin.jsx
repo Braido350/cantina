@@ -1,16 +1,10 @@
 "use client";
 
-<<<<<<< HEAD
-import { AuthContext } from "../context/auth";
-import React, { useContext } from "react";
-import Form from "next/form";
-=======
 import React, { useState } from "react";
 import { useForm } from "react-hook-form";
 import axios from "axios";
+import { useRouter } from "next/navigation";
 import { Signin } from "../services/controller/SignIn";
-import { redirect } from "next/dist/server/api-utils";
->>>>>>> b1ee5f7 (refatora autenticação para usar axios, melhora tratamento de erros e ajusta estrutura de componentes)
 
 export default function VerificarLogin() {
   const {
@@ -19,28 +13,25 @@ export default function VerificarLogin() {
     formState: { errors, isSubmitting },
   } = useForm();
   const [errorMessage, setErrorMessage] = useState(null);
+  const router = useRouter();
 
   const onSubmit = async (data) => {
-    await axios
-      .post("/api/usuario", {
+    try {
+      await axios.post("/api/usuario", {
         nome_usuario: data.nome_usuario,
         senha: data.senha,
-      })
-      .then(() => {
-        const formData = new FormData();
-        formData.append("nome_usuario", data.nome_usuario);
-        formData.append("senha", data.senha);
-
-        const signinResponse = Signin(formData);
-        return redirect("/vender");
-      })
-      .catch((err) => {
-        setErrorMessage(`${err.response.status} - ${err.response.data.error}`);
-        return;
       });
-  };
 
-  // console.log(errorMessage);
+      const formData = new FormData();
+      formData.append("nome_usuario", data.nome_usuario);
+      formData.append("senha", data.senha);
+
+      const signinResponse = await Signin(formData);
+      router.push("/vender");
+    } catch (err) {
+      setErrorMessage(`${err.response.status} - ${err.response.data.error}`);
+    }
+  };
 
   return (
     <>

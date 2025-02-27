@@ -1,11 +1,14 @@
 "use client";
-import React from "react";
+
+import React, { useEffect } from "react";
 import { useForm, Controller } from "react-hook-form";
 import Select from "react-select/async";
 import { getClientes } from "../../services/getClientes";
 import { getProdutos } from "../../services/getProdutos";
+import { useRouter } from "next/navigation";
+import { useSession } from "next-auth/react";
 
-function Shell() {
+export default function Shell() {
   const {
     register,
     handleSubmit,
@@ -18,6 +21,16 @@ function Shell() {
       quantidade: 1,
     },
   });
+
+  const router = useRouter();
+  const { data: session, status } = useSession();
+
+  useEffect(() => {
+    if (status === "loading") return; // Aguarda carregar a sessão
+    if (!session) {
+      router.push("/");
+    }
+  }, [session, status, router]);
 
   const debounce = (func, wait) => {
     let timeout;
@@ -34,9 +47,10 @@ function Shell() {
     );
     callback(filteredClientes);
   };
+
   const fetchProdutos = async (inputValue, callback) => {
-    const Produtos = await getProdutos();
-    const filteredProdutos = Produtos.filter((c) =>
+    const produtos = await getProdutos();
+    const filteredProdutos = produtos.filter((c) =>
       c.label.toLowerCase().includes(inputValue.toLowerCase())
     );
     callback(filteredProdutos);
@@ -48,6 +62,7 @@ function Shell() {
   const onSubmit = (data) => {
     console.log(data);
   };
+
   const handleCancelar = () => {
     reset({
       produto: null,
@@ -77,7 +92,7 @@ function Shell() {
               />
             )}
           />
-          {errors?.produto?.type === "required" && (
+          {errors?.produto && (
             <p className="text-red-400">Informe o Produto.</p>
           )}
         </div>
@@ -140,5 +155,3 @@ function Shell() {
     </div>
   );
 }
-
-export default Shell;

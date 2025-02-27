@@ -1,6 +1,10 @@
-import { useState } from "react";
+"use client";
+
+import React, { useEffect, useState } from "react";
 import { handleClient } from "../../../services/handle";
 import { Itens } from "../../../services/itens";
+import { useRouter } from "next/navigation";
+import { useSession } from "next-auth/react";
 
 export function CadastroClientes(props) {
   const {
@@ -12,6 +16,15 @@ export function CadastroClientes(props) {
   const { Clientes: item } = Itens;
 
   const [formData, setFormData] = useState({});
+  const router = useRouter();
+  const { data: session, status } = useSession();
+
+  useEffect(() => {
+    if (status === "loading") return; // Aguarda carregar a sessão
+    if (!session) {
+      router.push("/");
+    }
+  }, [session, status, router]);
 
   const handleChange = (e, name) =>
     handleChangeClient(e, formData, setFormData, name);
