@@ -37,10 +37,13 @@ model Cliente {
 }
 
 model Venda {
-  id         Int      @id @default(autoincrement())
-  clientId   Int
-  produtoId  Int
-  quantidade Int
-  total      Float
-  dataVenda  DateTime @default(now())
+  id            Int      @id @default(autoincrement())
+  idCliente     Int
+  idProduto     Int
+  data          DateTime @default(now())
+  quantidade    Int
+  valorProduto  Float
+  valorTotal    Float
+  valorDesconto Float
+  valorLiquido  Float
 }

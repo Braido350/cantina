@@ -69,11 +69,15 @@ export default function Shell() {
     fetchData();
   }, []);
 
-  const promiseClientes = debounce(fetchClientes, 1000);
   const promiseProdutos = debounce(fetchProdutos, 1000);
 
   const onSubmit = (data) => {
-    console.log(data);
+    const newItem = {
+      produto: data.produto,
+      quantidade: Number(data.quantidade),
+      cliente: data.cliente || null,
+    };
+    setSelectProduct((prev) => [newItem]);
   };
 
   const handleCancelar = () => {
@@ -82,11 +86,12 @@ export default function Shell() {
       quantidade: 1,
       cliente: null,
     });
-    setSelectProduct([]);
   };
 
+  console.log(selectProduct);
+
   return (
-    <div className="box-border h-auto w-[600px] size-auto p-4 border-4 rounded-2xl bg-white">
+    <div className="box-border h-auto w-full size-auto p-4 border-4 rounded-2xl bg-white">
       <div className="w-full aspect-auto">
         <h2>Vender</h2>
         <div className="text-gray-700 text-1xl font-semibold mb-2 flex flex-col">
@@ -100,14 +105,9 @@ export default function Shell() {
                 {...field}
                 cacheOptions
                 defaultOptions
-                isMulti={true}
                 loadOptions={promiseProdutos}
                 className="w-full text-lg text-gray-800 bg-gray-300 rounded"
                 placeholder="Nome do produto"
-                onChange={(selectedOption) => {
-                  field.onChange(selectedOption);
-                  setSelectProduct(selectedOption);
-                }}
               />
             )}
           />
@@ -115,43 +115,27 @@ export default function Shell() {
             <p className="text-red-400">Informe o Produto.</p>
           )}
         </div>
-        <div className="text-gray-700 text-1xl font-semibold mb-2 flex flex-col">
-          <label>Cliente</label>
-          <Controller
-            name="cliente"
-            control={control}
-            render={({ field }) => (
-              <Select
-                {...field}
-                cacheOptions
-                defaultOptions
-                loadOptions={promiseClientes}
-                placeholder="Nome do Cliente (opcional)"
-                className="w-full text-lg text-gray-800 bg-gray-300 rounded"
-              />
-            )}
-          />
-          <div className="text-gray-700 text-1xl font-semibold mb-2 flex flex-col mt-2">
-            <label>Quantidade</label>
-            <select
-              type="number"
-              defaultValue="1"
-              className="text-gray-700 text-1xl font-semibold mt-1 bg-gray-200 p-2.5 rounded"
-              {...register("quantidade", { required: true, min: 1 })}
-            >
-              <option value="1">1</option>
-              <option value="2">2</option>
-              <option value="3">3</option>
-              <option value="4">4</option>
-              <option value="5">5</option>
-            </select>
-            {errors?.quantidade?.type === "required" && (
-              <p className="text-red-400">Informe a Quantidade.</p>
-            )}
-            {errors?.quantidade?.type === "min" && (
-              <p className="text-red-400">Tem que ser maior que 0.</p>
-            )}
-          </div>
+
+        <div className="text-gray-700 text-1xl font-semibold mb-2 flex flex-col mt-2">
+          <label>Quantidade</label>
+          <select
+            type="number"
+            defaultValue="1"
+            className="text-gray-700 text-1xl font-semibold mt-1 bg-gray-200 p-2.5 rounded"
+            {...register("quantidade", { required: true, min: 1 })}
+          >
+            <option value="1">1</option>
+            <option value="2">2</option>
+            <option value="3">3</option>
+            <option value="4">4</option>
+            <option value="5">5</option>
+          </select>
+          {errors?.quantidade?.type === "required" && (
+            <p className="text-red-400">Informe a Quantidade.</p>
+          )}
+          {errors?.quantidade?.type === "min" && (
+            <p className="text-red-400">Tem que ser maior que 0.</p>
+          )}
         </div>
         <div className="flex justify-between mt-6">
           <button
