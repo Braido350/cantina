@@ -4,7 +4,7 @@ export const Itens = {
       id: 1,
       txt: "Nome do Cliente",
       placeholder: "Nome do Cliente",
-      name: "nomeCliente",
+      name: "nome",
       type: "text",
     },
     {
@@ -12,7 +12,7 @@ export const Itens = {
       txt: "Telefone",
       placeholder: "Ex: 69999872557",
       name: "telefone",
-      type: "Number",
+      type: "text",
     },
     {
       id: 3,
@@ -26,7 +26,7 @@ export const Itens = {
       txt: "CPF",
       placeholder: "Ex: 00000000000",
       name: "cpf",
-      type: "Number",
+      type: "text",
     },
   ],
   Produtos: [
@@ -34,7 +34,7 @@ export const Itens = {
       id: 1,
       txt: "Nome do produto",
       placeholder: "Produto",
-      name: "nomeProduto",
+      name: "nome",
       type: "text",
     },
     {
@@ -42,14 +42,14 @@ export const Itens = {
       txt: "Valor do Produto",
       placeholder: "Ex: 99.99",
       name: "valor",
-      type: "Number",
+      type: "text",
     },
     {
       id: 3,
       txt: "Quantidade",
       placeholder: "Ex: 10",
       name: "quantidade",
-      type: "Number",
+      type: "number",
     },
   ],
 };
