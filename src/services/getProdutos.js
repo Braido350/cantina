@@ -6,6 +6,7 @@ export async function getProdutos() {
     const Produtos = response.data.map((produto) => ({
       value: produto.id,
       label: produto.nome,
+      valor: produto.valor,
     }));
     return Produtos;
   } catch (error) {

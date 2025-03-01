@@ -1,12 +1,14 @@
 "use client";
 
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useForm, Controller } from "react-hook-form";
 import Select from "react-select/async";
 import { getClientes } from "../../services/getClientes";
 import { getProdutos } from "../../services/getProdutos";
 import { useRouter } from "next/navigation";
 import { useSession } from "next-auth/react";
+import axios from "axios";
+import ValorTotal from "./valorTotal";
 
 export default function Shell() {
   const {
@@ -22,6 +24,7 @@ export default function Shell() {
     },
   });
 
+  const [selectProduct, setSelectProduct] = useState([]);
   const router = useRouter();
   const { data: session, status } = useSession();
 
@@ -56,6 +59,16 @@ export default function Shell() {
     callback(filteredProdutos);
   };
 
+  const [produtosData, setProdutosData] = useState([]);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      const response = await axios.get("/api/registerProducts");
+      setProdutosData(response.data);
+    };
+    fetchData();
+  }, []);
+
   const promiseClientes = debounce(fetchClientes, 1000);
   const promiseProdutos = debounce(fetchProdutos, 1000);
 
@@ -69,6 +82,7 @@ export default function Shell() {
       quantidade: 1,
       cliente: null,
     });
+    setSelectProduct([]);
   };
 
   return (
@@ -86,9 +100,14 @@ export default function Shell() {
                 {...field}
                 cacheOptions
                 defaultOptions
+                isMulti={true}
                 loadOptions={promiseProdutos}
                 className="w-full text-lg text-gray-800 bg-gray-300 rounded"
                 placeholder="Nome do produto"
+                onChange={(selectedOption) => {
+                  field.onChange(selectedOption);
+                  setSelectProduct(selectedOption);
+                }}
               />
             )}
           />
@@ -142,7 +161,7 @@ export default function Shell() {
             })}
             className="px-6 py-2 bg-green-500 text-white rounded hover:bg-green-600 transition"
           >
-            Vender
+            Carrinho
           </button>
           <button
             onClick={handleCancelar}
@@ -150,6 +169,9 @@ export default function Shell() {
           >
             Cancelar
           </button>
+        </div>
+        <div>
+          <ValorTotal produtos={selectProduct} />
         </div>
       </div>
     </div>
