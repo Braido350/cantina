@@ -28,7 +28,7 @@ const ValorTotal = ({ produtos }) => {
     if (Array.isArray(produtos)) {
       const newProducts = produtos.map((item) => ({
         label: item.produto.label,
-        valor: item.produto.valor,
+        valor: item.valor,
         qty: Number(item.quantidade) || 1,
         ID: item.produto.id,
       }));
@@ -105,11 +105,7 @@ const ValorTotal = ({ produtos }) => {
                   Nome do Produto
                 </p>
               </th>
-              <th className="p-4 border-b border-slate-300 bg-slate-50">
-                <p className="block text-sm font-normal leading-none text-slate-500">
-                  Categoria
-                </p>
-              </th>
+
               <th className="p-4 border-b border-slate-300 bg-slate-50">
                 <p className="block text-sm font-normal leading-none text-slate-500">
                   QTD
@@ -140,11 +136,7 @@ const ValorTotal = ({ produtos }) => {
                     {produto.label}
                   </p>
                 </td>
-                <td className="p-4 border-b border-slate-200">
-                  <p className="block text-sm text-slate-800">
-                    {produto.category}
-                  </p>
-                </td>
+
                 <td className="p-4 border-b border-slate-200">
                   <p className="block text-sm text-slate-800">{produto.qty}</p>
                 </td>

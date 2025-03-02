@@ -21,7 +21,7 @@ export default function CadastroUsuarios() {
   useEffect(() => {
     if (status === "loading") return; // espera carregar a sessão
     if (!session) {
-      router.push("/login");
+      // router.push("/");
     }
   }, [session, status, router]);
 

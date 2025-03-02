@@ -5,9 +5,10 @@ import { NextResponse } from "next/server";
 import { VendasController } from "../../../services/controller/VendasController";
 
 const prisma = new PrismaClient();
+const controller = new VendasController();
 
 export async function GET() {
-  const data = await VendasController.index();
+  const data = await controller.index();
   return NextResponse.json(data);
 }
 
