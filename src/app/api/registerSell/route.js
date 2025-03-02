@@ -30,12 +30,13 @@ export async function POST(req) {
         // Caso o produto não seja encontrado, pule ou faça outro tratamento
         continue;
       }
+      console.log("Produto encontrado:", item);
 
       const valorProduto = item.valor || 0;
       const quantidade = item.qty || 1;
-      const valorTotal = valorProduto * quantidade;
-      const valorDesconto = 0;
-      const valorLiquido = valorTotal - valorDesconto;
+      const valorTotal = item.valorDesconto;
+      const valorDesconto = item.desconto;
+      const valorLiquido = valorTotal;
 
       // Cria registro de venda na tabela Venda
       await prisma.venda.create({

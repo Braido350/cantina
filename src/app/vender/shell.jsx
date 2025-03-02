@@ -77,7 +77,7 @@ export default function Shell() {
       produto: data.produto,
       quantidade: Number(data.quantidade),
       desconto: data.desconto,
-      valor: data.produto.valor - data.desconto,
+      valorDesconto: data.produto.valor * data.quantidade - data.desconto,
     };
     setSelectProduct((prev) => [newItem]);
   };
@@ -154,7 +154,7 @@ export default function Shell() {
             <p className="text-red-400">Tem que ser maior que 0.</p>
           )}
         </div>
-        {/* <div className="text-gray-700 text-1xl font-semibold mb-2 flex flex-col mt-2">
+        <div className="text-gray-700 text-1xl font-semibold mb-2 flex flex-col mt-2">
           <label>Desconto</label>
           <select
             type="number"
@@ -174,7 +174,7 @@ export default function Shell() {
             <option value="9">9</option>
             <option value="10">10</option>
           </select>
-        </div> */}
+        </div>
         <div className="flex justify-between mt-6">
           <button
             onClick={handleSubmit((data) => {

@@ -2,56 +2,42 @@
 import React, { useEffect, useState, useCallback } from "react";
 import { useForm, Controller } from "react-hook-form";
 import Select from "react-select/async";
-import { getClientes } from "../../services/getClientes";
-import { FaBan } from "react-icons/fa6";
 import axios from "axios";
+import { FaBan } from "react-icons/fa6";
+import { getClientes } from "../../services/getClientes";
 
 const ValorTotal = ({ produtos }) => {
-  const {
-    register,
-    handleSubmit,
-    reset,
-    control,
-    formState: { errors },
-  } = useForm({
+  const { control, handleSubmit, reset } = useForm({
     defaultValues: {
       cliente: null,
     },
   });
 
-  console.log("produtos", produtos);
-
   const [produtosData, setProdutosData] = useState([]);
 
-  // Atualiza os dados dos produtos sempre que "produtos" mudar (acrescentando novos itens)
   useEffect(() => {
     if (Array.isArray(produtos)) {
       const newProducts = produtos.map((item) => ({
-        label: item.produto.label,
-        valor: item.valor,
-        qty: Number(item.quantidade) || 1,
-        ID: item.produto.id,
+        label: item?.produto?.label ?? "Sem Nome",
+        valor: Number(item?.produto?.valor) || 0,
+        qty: Number(item?.quantidade) || 1,
+        desconto: parseFloat(item?.desconto) || 0,
+        valorDesconto: parseFloat(item?.valorDesconto) || 0,
+        ID: item?.produto?.value,
       }));
       setProdutosData((prev) => [...prev, ...newProducts]);
     }
   }, [produtos]);
 
-  // Limpa o formulário e a lista de produtos
   const handleCancelar = () => {
-    reset({
-      cliente: null,
-    });
+    reset({ cliente: null });
     setProdutosData([]);
   };
 
-  // Remove um item da lista
   const handleRemoveItem = (indexToRemove) => {
-    setProdutosData((prev) =>
-      prev.filter((_, index) => index !== indexToRemove)
-    );
+    setProdutosData((prev) => prev.filter((_, idx) => idx !== indexToRemove));
   };
 
-  // Função debounce para otimizar as buscas
   const debounce = (func, wait) => {
     let timeout;
     return (...args) => {
@@ -60,33 +46,32 @@ const ValorTotal = ({ produtos }) => {
     };
   };
 
-  // Busca os clientes filtrados com debounce
   const fetchClientes = async (inputValue, callback) => {
-    const clientes = await getClientes();
-    const filteredClientes = clientes.filter((c) =>
-      c.label.toLowerCase().includes(inputValue.toLowerCase())
-    );
-    callback(filteredClientes);
+    try {
+      const clientes = await getClientes();
+      const filtered = clientes.filter((c) =>
+        c.label.toLowerCase().includes(inputValue.toLowerCase())
+      );
+      callback(filtered);
+    } catch (error) {
+      console.error("Erro ao buscar clientes:", error);
+      callback([]);
+    }
   };
 
-  const promiseClientes = useCallback(debounce(fetchClientes, 1000), []);
+  const promiseClientes = useCallback(debounce(fetchClientes, 800), []);
 
-  // Submete os dados para registrar a venda
   const onSubmit = async (data) => {
-    const payload = {
-      produtosData,
-      ...data,
-    };
-    const response = await axios.post("/api/registerSell", payload);
-    console.log("payload", response);
-    return response.status;
+    const payload = { produtosData, ...data };
+    await axios.post("/api/registerSell", payload);
+    handleCancelar();
   };
 
+  const totalQty = produtosData.reduce((acc, item) => acc + item.qty, 0);
   const totalPrice = produtosData.reduce(
-    (acc, item) => acc + item.valor * item.qty,
+    (acc, item) => acc + item.valorDesconto,
     0
   );
-  const totalQty = produtosData.reduce((acc, item) => acc + item.qty, 0);
 
   return (
     <div className="text-left w-full">
@@ -105,7 +90,6 @@ const ValorTotal = ({ produtos }) => {
                   Nome do Produto
                 </p>
               </th>
-
               <th className="p-4 border-b border-slate-300 bg-slate-50">
                 <p className="block text-sm font-normal leading-none text-slate-500">
                   QTD
@@ -114,6 +98,11 @@ const ValorTotal = ({ produtos }) => {
               <th className="p-4 border-b border-slate-300 bg-slate-50">
                 <p className="block text-sm font-normal leading-none text-slate-500">
                   Valor
+                </p>
+              </th>
+              <th className="p-4 border-b border-slate-300 bg-slate-50">
+                <p className="block text-sm font-normal leading-none text-slate-500">
+                  Valor/Desconto
                 </p>
               </th>
               <th className="p-4 border-b border-slate-300 bg-slate-50">
@@ -129,37 +118,47 @@ const ValorTotal = ({ produtos }) => {
             </tr>
           </thead>
           <tbody>
-            {produtosData.map((produto, index) => (
-              <tr key={index} className="hover:bg-slate-50">
-                <td className="p-4 border-b border-slate-200">
-                  <p className="block text-sm text-slate-800">
-                    {produto.label}
-                  </p>
-                </td>
-
-                <td className="p-4 border-b border-slate-200">
-                  <p className="block text-sm text-slate-800">{produto.qty}</p>
-                </td>
-                <td className="p-4 border-b border-slate-200">
-                  <p className="block text-sm text-slate-800">
-                    ${produto.valor.toFixed(2)}
-                  </p>
-                </td>
-                <td className="p-4 border-b border-slate-200">
-                  <p className="block text-sm text-slate-800">
-                    R${(produto.valor * produto.qty).toFixed(2)}
-                  </p>
-                </td>
-                <td className="p-4 border-b border-slate-200">
-                  <button
-                    onClick={() => handleRemoveItem(index)}
-                    className="px-2 py-1 bg-red-500 text-white rounded hover:bg-red-600 transition"
-                  >
-                    <FaBan />
-                  </button>
-                </td>
-              </tr>
-            ))}
+            {produtosData.map((produto, index) => {
+              const totalItem = produto.valorDesconto;
+              const desconto = produto.desconto;
+              return (
+                <tr key={index} className="hover:bg-slate-50">
+                  <td className="p-4 border-b border-slate-200">
+                    <p className="block text-sm text-slate-800">
+                      {produto.label}
+                    </p>
+                  </td>
+                  <td className="p-4 border-b border-slate-200">
+                    <p className="block text-sm text-slate-800">
+                      {produto.qty}
+                    </p>
+                  </td>
+                  <td className="p-4 border-b border-slate-200">
+                    <p className="block text-sm text-slate-800">
+                      R${produto.valor.toFixed(2)}
+                    </p>
+                  </td>
+                  <td className="p-4 border-b border-slate-200">
+                    <p className="block text-sm text-slate-800">
+                      R${desconto.toFixed(2)}
+                    </p>
+                  </td>
+                  <td className="p-4 border-b border-slate-200">
+                    <p className="block text-sm text-slate-800">
+                      R${totalItem.toFixed(2)}
+                    </p>
+                  </td>
+                  <td className="p-4 border-b border-slate-200">
+                    <button
+                      onClick={() => handleRemoveItem(index)}
+                      className="px-2 py-1 bg-red-500 text-white rounded hover:bg-red-600 transition"
+                    >
+                      <FaBan />
+                    </button>
+                  </td>
+                </tr>
+              );
+            })}
           </tbody>
           <tfoot>
             <tr>
@@ -173,13 +172,13 @@ const ValorTotal = ({ produtos }) => {
                 colSpan="2"
                 className="p-4 font-bold text-slate-800 border-t border-slate-300"
               >
-                {totalQty}
+                {totalQty} itens
               </td>
               <td
                 colSpan="2"
                 className="p-4 font-semibold text-slate-800 border-t border-slate-300"
               >
-                ${totalPrice.toFixed(2)}
+                R${totalPrice.toFixed(2)}
               </td>
             </tr>
           </tfoot>
@@ -205,13 +204,10 @@ const ValorTotal = ({ produtos }) => {
       </div>
       <div className="flex justify-between mt-6">
         <button
-          onClick={handleSubmit((data) => {
-            onSubmit(data);
-            handleCancelar();
-          })}
+          onClick={handleSubmit((data) => onSubmit(data))}
           className="px-6 py-2 bg-green-500 text-white rounded hover:bg-green-600 transition"
         >
-          Carrinho
+          Salvar Venda
         </button>
         <button
           onClick={handleCancelar}

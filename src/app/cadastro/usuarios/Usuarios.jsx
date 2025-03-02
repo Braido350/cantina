@@ -63,8 +63,8 @@ export default function CadastroUsuarios() {
         <div>
           <label>Senha</label>
           <input
-            type="text"
-            {...register("senha", { required: true, minLength: 6 })}
+            type="password"
+            {...register("senha", { required: true, minLength: 1 })}
             placeholder="Sua senha"
           />
           <p className="text-gray-400 text-sm">

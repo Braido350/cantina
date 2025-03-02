@@ -84,7 +84,7 @@ export const handleUsuarios = {
     e.preventDefault();
     alert("Salvando Usuário..." + JSON.stringify(formData));
 
-    const response = await axios.post("/api/usuario", formData);
+    const response = await axios.post("/api/registerUser", formData);
     if (response.status === 200 && response.data.success) {
       alert("Usuário autenticado com sucesso!");
       setFormData({});
