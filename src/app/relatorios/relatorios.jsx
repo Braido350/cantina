@@ -41,9 +41,10 @@ function Relatorios() {
     try {
       const response = await getSell();
       const idClient = selectedCliente.value;
-      const filteredVendas = response.filter(
+      let filteredVendas = response.filter(
         (venda) => venda.idCliente === idClient
       );
+      filteredVendas = await BuscarProdutos(filteredVendas);
       setVendas(filteredVendas);
     } catch (error) {
       console.error("Erro ao carregar vendas:", error);
@@ -52,7 +53,6 @@ function Relatorios() {
 
   // Calcula o valor total das vendas
   const totalGeral = vendas.reduce((acc, venda) => acc + venda.valorTotal, 0);
-  console.log("vendas", vendas);
 
   return (
     <div className="p-4 border-4 rounded-2xl bg-white max-w-4xl mx-auto">
@@ -110,7 +110,13 @@ function Relatorios() {
                     ID Venda
                   </th>
                   <th className="p-4 border-b border-slate-300 bg-slate-50">
+                    Produto
+                  </th>
+                  <th className="p-4 border-b border-slate-300 bg-slate-50">
                     Data
+                  </th>
+                  <th className="p-4 border-b border-slate-300 bg-slate-50">
+                    Horário
                   </th>
                   <th className="p-4 border-b border-slate-300 bg-slate-50">
                     Quantidade
@@ -130,7 +136,13 @@ function Relatorios() {
                       {venda.id}
                     </td>
                     <td className="p-4 border-b border-slate-200">
+                      {venda.nomeProduto}
+                    </td>
+                    <td className="p-4 border-b border-slate-200">
                       {new Date(venda.data).toLocaleDateString()}
+                    </td>
+                    <td className="p-4 border-b border-slate-200">
+                      {new Date(venda.data).toLocaleTimeString()}
                     </td>
                     <td className="p-4 border-b border-slate-200">
                       {venda.quantidade}
@@ -147,13 +159,13 @@ function Relatorios() {
               <tfoot>
                 <tr>
                   <td
-                    colSpan="4"
+                    colSpan="6"
                     className="p-4 text-right font-bold text-slate-800 border-t border-slate-300"
                   >
                     Total Geral:
                   </td>
                   <td
-                    colSpan="3"
+                    colSpan="1"
                     className="p-4 font-bold text-slate-800 border-t border-slate-300"
                   >
                     R${totalGeral.toFixed(2)}

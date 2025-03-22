@@ -1,3 +1,5 @@
+import axios from "axios";
+
 export async function BuscarProdutos(vendas) {
   // Busca a lista de produtos
   const response = await axios.get("/api/registerProducts");

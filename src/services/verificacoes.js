@@ -77,7 +77,7 @@ const verificarDadosProduto = async ({ nome, quantidade, valor }) => {
     };
   }
   const valorConvertido = Number(valor.toString().replace(",", "."));
-  if (isNaN(valorConvertido) || valorConvertido <= 0) {
+  if (isNaN(valorConvertido)) {
     return {
       success: false,
       error: "Valor inválido: deve ser um número maior que zero.",
