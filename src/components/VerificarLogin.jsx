@@ -16,6 +16,8 @@ import { useForm } from "react-hook-form";
 import axios from "axios";
 import { useRouter } from "next/navigation";
 import { Signin } from "../services/controller/SignIn";
+import { redirect } from "next/dist/server/api-utils";
+>>>>>>> b1ee5f7 (refatora autenticação para usar axios, melhora tratamento de erros e ajusta estrutura de componentes)
 
 export default function VerificarLogin() {
   const {
