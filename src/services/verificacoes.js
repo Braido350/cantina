@@ -1,101 +1,128 @@
-// Desc: Funções para verificar dados de cliente, produto e venda
-const verificarDadosCliente = (props) => {
-  const { nomeCliente, telefone, cpf, cidade } = props;
-  const telefoneRegex = /^\d{10,11}$/;
+import axios from "axios";
 
-  if (!nomeCliente || !telefone || !cpf || !cidade) {
-    return { error: "Preencha todos os campos." };
+/**
+ * Valida os dados do cliente.
+ * @param {Object} props
+ * @param {string} props.nome - Deve ter pelo menos 3 caracteres.
+ * @param {string} props.telefone - Deve conter apenas números (10 ou 11 dígitos).
+ * @param {string} props.cpf - Deve ter exatamente 11 dígitos.
+ * @param {string} props.cidade - Deve ter pelo menos 3 caracteres.
+ * @returns {Promise<Object>} { success: boolean, error?: string }
+ */
+const verificarDadosCliente = async ({ nome, telefone, cpf, cidade }) => {
+  console.log(nome, telefone, cpf, cidade);
+  if (!nome || !telefone || !cpf || !cidade) {
+    return { success: false, error: "Preencha todos os campos." };
   }
-  if (nomeCliente.length < 3) {
-    return { error: "Nome inválido. Deve ter pelo menos 3 caracteres." };
+  if (nome.trim().length < 3) {
+    return {
+      success: false,
+      error: "Nome inválido: deve ter pelo menos 3 caracteres.",
+    };
   }
-  if (cidade.length < 3) {
-    return { error: "Cidade inválida. Deve ter pelo menos 3 caracteres." };
+  if (cidade.trim().length < 3) {
+    return {
+      success: false,
+      error: "Cidade inválida: deve ter pelo menos 3 caracteres.",
+    };
   }
+  const telefoneRegex = /^\d{10,11}$/;
   if (!telefoneRegex.test(telefone)) {
     return {
-      error: "Telefone inválido. Deve conter apenas números e conter o DDD.",
+      success: false,
+      error: "Telefone inválido: deve conter 10 ou 11 dígitos numéricos.",
     };
   }
   const cpfRegex = /^\d{11}$/;
   if (!cpfRegex.test(cpf)) {
-    return { error: "CPF inválido. Deve conter exatamente 11 dígitos." };
+    return {
+      success: false,
+      error: "CPF inválido: deve conter exatamente 11 dígitos.",
+    };
+  }
+  const response = await axios.get("/api/registerClient");
+  console.log("existingClients:", response.data);
+  const clientFound = response.data.find((item) => item.cpf === cpf);
+
+  console.log("clientFound:", clientFound);
+  if (clientFound) {
+    return { success: false, error: "Cliente já existe no sistema." };
+  }
+
+  return { success: true };
+};
+
+/**
+ * Valida os dados do produto.
+ * @param {Object} props
+ * @param {string} props.nome - Deve ter pelo menos 3 caracteres.
+ * @param {number} props.quantidade - Deve ser um número maior que 0.
+ * @param {number} props.valor - Deve ser um número maior que 0.
+ * @returns {Object} { success: boolean, error?: string }
+ */
+const verificarDadosProduto = async ({ nome, quantidade, valor }) => {
+  if (!nome || quantidade == null || valor == null) {
+    return { success: false, error: "Preencha todos os campos." };
+  }
+  if (nome.trim().length < 3) {
+    return {
+      success: false,
+      error: "Nome inválido: deve ter pelo menos 3 caracteres.",
+    };
+  }
+  if (isNaN(quantidade) || Number(quantidade) <= 0) {
+    return {
+      success: false,
+      error: "Quantidade inválida: deve ser um número maior que zero.",
+    };
+  }
+  const valorConvertido = Number(valor.toString().replace(",", "."));
+  if (isNaN(valorConvertido)) {
+    return {
+      success: false,
+      error: "Valor inválido: deve ser um número maior que zero.",
+    };
+  }
+  const existingClients = await axios.get("/api/registerProducts");
+  const clientFound = existingClients.data.some((p) => p.nome === nome);
+  if (clientFound) {
+    return { success: false, error: "Produto já cadastrado" };
   }
   return { success: true };
 };
 
-const verificarDadosProduto = (props) => {
-  const { nomeProduto, Quantidade, Valor } = props;
-
-  if (!nomeProduto || !Quantidade || !Valor) {
-    return { error: "Preencha todos os campos." };
+/**
+ * Verifica os dados de venda.
+ * @param {Object} props
+ * @param {string} [props.cliente] - Opcional, se informado deve ter pelo menos 3 caracteres.
+ * @param {string} props.produto - Deve ter pelo menos 3 caracteres.
+ * @param {number} props.quantidade - Deve ser um número maior que 0.
+ * @returns {Object} { success: boolean, error?: string }
+ */
+const tratarVendas = async ({ cliente, produto, quantidade }) => {
+  if (!produto || quantidade == null) {
+    return { success: false, error: "Preencha todos os campos obrigatórios." };
   }
-  if (nomeProduto.length < 3) {
-    return { error: "Nome inválido. Deve ter pelo menos 3 caracteres." };
+  if (produto.trim().length < 3) {
+    return {
+      success: false,
+      error: "Produto inválido: deve ter pelo menos 3 caracteres.",
+    };
   }
-  if (Quantidade <= 0 || isNaN(Quantidade)) {
-    return { error: "Quantidade inválida. Deve ser um número maior que zero." };
+  if (isNaN(quantidade) || Number(quantidade) <= 0) {
+    return {
+      success: false,
+      error: "Quantidade inválida: deve ser um número maior que zero.",
+    };
   }
-  if (Valor <= 0 || isNaN(Valor)) {
-    return { error: "Valor inválido. Deve ser um número maior que zero." };
+  if (cliente && cliente.trim().length > 0 && cliente.trim().length < 3) {
+    return {
+      success: false,
+      error:
+        "Cliente inválido: se informado, deve ter pelo menos 3 caracteres.",
+    };
   }
   return { success: true };
 };
 
-const tratarVendas = async (props) => {
-  const { cliente, produto, quantidade } = props;
-
-  if (cliente && cliente.length < 3) {
-    return "Cliente inválido.";
-  }
-  if (!produto || !quantidade) {
-    return "Preencha todos os campos.";
-  }
-  if (produto.length < 3) {
-    return "Produto inválido.";
-  }
-  if (quantidade <= 0) {
-    return "Quantidade inválida.";
-  }
-};
-
-const verificarClienteExiste = async (cpf) => {
-  const checkQuery = `
-    SELECT * FROM client WHERE cpf = $1;
-  `;
-  const checkValues = [cpf];
-  try {
-    const res = await postGres.query(checkQuery, checkValues);
-    if (res.rows.length > 0) {
-      console.log(`Cliente com CPF ${cpf} já está cadastrado.`);
-      return { error: "Cliente já cadastrado" };
-    }
-  } catch (err) {
-    console.log(`Erro ao verificar cliente ${cpf}:`, err);
-    return { error: "Erro ao verificar cliente" };
-  }
-};
-
-const verificarProdutoExiste = async (nomeProduto) => {
-  const checkQuery = `
-    SELECT * FROM produto WHERE nome = $1;
-  `;
-  const checkValues = [nomeProduto];
-  try {
-    const res = await postGres.query(checkQuery, checkValues);
-    if (res.rows.length > 0) {
-      console.log(`Produto com nome ${nomeProduto} já está cadastrado.`);
-      return { error: "Produto já cadastrado" };
-    }
-  } catch (err) {
-    console.log(`Erro ao verificar produto ${nomeProduto}:`, err);
-    return { error: "Erro ao verificar produto" };
-  }
-};
-export {
-  verificarDadosCliente,
-  verificarDadosProduto,
-  tratarVendas,
-  verificarClienteExiste,
-  verificarProdutoExiste,
-};
+export { verificarDadosCliente, verificarDadosProduto, tratarVendas };

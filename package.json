@@ -25,15 +25,20 @@
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
     "react-hook-form": "^7.54.2",
+    "react-icons": "^5.5.0",
     "react-select": "^5.9.0",
     "react-toastify": "^11.0.3"
   },
   "devDependencies": {
+    "@babel/eslint-parser": "^7.26.10",
     "@eslint/eslintrc": "^3",
+    "@next/eslint-plugin-next": "^15.2.3",
+    "@types/eslint__eslintrc": "^2.1.2",
     "@types/estree": "^1.0.6",
-    "eslint": "^9",
+    "eslint": "^9.22.0",
     "eslint-config-next": "15.1.1",
     "postcss": "^8",
-    "tailwindcss": "^3.4.1"
+    "tailwindcss": "^3.4.1",
+    "typescript": "^5.8.2"
   }
 }

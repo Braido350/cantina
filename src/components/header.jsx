@@ -47,7 +47,7 @@ export default function Header() {
             />
           </button>
         </Link>
-        <Link href="">
+        <Link href="/relatorios">
           <button className="hover:basis mx-2 bg-amber-500 text-white p-2 rounded">
             <Image
               src={Inventario}

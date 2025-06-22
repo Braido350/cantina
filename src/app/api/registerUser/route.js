@@ -1,9 +1,9 @@
 "use server";
 "no cache";
-import { ProdutosController } from "../../../services/controller/ProdutosController";
+import { UserController } from "../../../services/controller/UserController";
 import { NextResponse } from "next/server";
 
-const controller = new ProdutosController();
+const controller = new UserController();
 
 export async function GET() {
   const data = await controller.index();
@@ -11,7 +11,7 @@ export async function GET() {
 }
 
 export async function POST(req) {
-  console.log("req", req);
   const body = await req.json();
+  console.log("req", body);
   return controller.store(body);
 }

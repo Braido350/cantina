@@ -1,5 +1,5 @@
 import axios from "axios";
-import { verificarDadosCliente } from "./verificacoes";
+import { verificarDadosCliente, verificarDadosProduto } from "./verificacoes";
 
 export const handleClient = {
   handleChange: (e, formData, setFormData, name) => {
@@ -10,32 +10,31 @@ export const handleClient = {
   },
 
   handleSave: async (e, formData, setFormData) => {
+    console.log(formData);
     e.preventDefault();
-    const validacao = verificarDadosCliente(formData);
-    if (validacao.error) {
+    const cleanedCPF = formData.cpf.replace(/\D/g, "");
+    const cleanedTelefone = formData.telefone.replace(/\D/g, "");
+    const validacao = await verificarDadosCliente({
+      ...formData,
+      cpf: cleanedCPF,
+      telefone: cleanedTelefone,
+    });
+    console.log("validação", validacao);
+    if (validacao.success !== true) {
       alert(validacao.error);
       return;
     }
-    alert("Salvando Cliente..." + JSON.stringify(formData));
-    try {
-      const response = await axios.post("/api/registerClient", formData);
-      if (response.status === 201 && response.data.success) {
-        alert("Cliente cadastrado com sucesso!");
-        setFormData({});
-      } else {
-        alert(
-          "Erro ao cadastrar o Cliente. Verifique os dados e tente novamente."
-        );
-      }
-    } catch (error) {
-      if (error.response) {
-        alert(`Erro ao cadastrar o Cliente: ${error.response.data.error}`);
-      } else if (error.request) {
-        alert("Erro ao cadastrar o Cliente: Nenhuma resposta do servidor.");
-      } else {
-        alert(`Erro ao cadastrar o Cliente: ${error.message}`);
-      }
-      console.error("Erro ao cadastrar o Cliente:", error);
+    alert("Salvando Cliente..." + JSON.stringify(formData.nome));
+    const response = await axios.post("/api/registerClient", {
+      ...formData,
+      cpf: cleanedCPF,
+      telefone: cleanedTelefone,
+    });
+    if (!response.status === 201 && !response.data.success) {
+      alert("Erro ao cadastrar o Cliente. Tente novamente.");
+    } else {
+      alert("Cliente cadastrado com sucesso!");
+      setFormData({});
     }
   },
 
@@ -55,32 +54,21 @@ export const handleProdutos = {
   },
 
   handleSave: async (e, formData, setFormData) => {
+    console.log(formData);
     e.preventDefault();
-    const validacao = verificarDadosProduto(formData);
-    if (validacao.error) {
+    const validacao = await verificarDadosProduto(formData);
+    console.log("validação", validacao);
+    if (!validacao.success) {
       alert(validacao.error);
       return;
     }
     alert("Salvando Produto..." + JSON.stringify(formData));
-    try {
-      const response = await axios.post("/api/registerProduto", formData);
-      if (response.status === 201 && response.data.success) {
-        alert("Produto cadastrado com sucesso!");
-        setFormData({});
-      } else {
-        alert(
-          "Erro ao cadastrar o Produto. Verifique os dados e tente novamente."
-        );
-      }
-    } catch (error) {
-      if (error.response) {
-        alert(`Erro ao cadastrar o Produto: ${error.response.data.error}`);
-      } else if (error.request) {
-        alert("Erro ao cadastrar o Produto: Nenhuma resposta do servidor.");
-      } else {
-        alert(`Erro ao cadastrar o Produto: ${error.message}`);
-      }
-      console.error("Erro ao cadastrar o Produto:", error);
+    const response = await axios.post("/api/registerProducts", formData);
+    if (!response.status === 201 && !response.data.success) {
+      alert("Erro ao cadastrar o Produto. Tente novamente.");
+    } else {
+      alert("Produto cadastrado com sucesso!");
+      setFormData({});
     }
   },
 
@@ -94,31 +82,16 @@ export const handleProdutos = {
 export const handleUsuarios = {
   handleSave: async (e, formData, setFormData) => {
     e.preventDefault();
-    // const validacao = verificarDadosProduto(formData);
-    // if (validacao.error) {
-    //   alert(validacao.error);
-    //   return;
-    // }
-    alert("Salvando Produto..." + JSON.stringify(formData));
-    try {
-      const response = await axios.post("/api/login", formData);
-      if (response.status === 201 && response.data.success) {
-        alert("Produto cadastrado com sucesso!");
-        setFormData({});
-      } else {
-        alert(
-          "Erro ao cadastrar o Produto. Verifique os dados e tente novamente."
-        );
-      }
-    } catch (error) {
-      if (error.response) {
-        alert(`Erro ao cadastrar o Produto: ${error.response.data.error}`);
-      } else if (error.request) {
-        alert("Erro ao cadastrar o Produto: Nenhuma resposta do servidor.");
-      } else {
-        alert(`Erro ao cadastrar o Produto: ${error.message}`);
-      }
-      console.error("Erro ao cadastrar o Produto:", error);
+    alert("Salvando Usuário..." + JSON.stringify(formData));
+
+    const response = await axios.post("/api/registerUser", formData);
+    if (response.status === 200 && response.data.success) {
+      alert("Usuário autenticado com sucesso!");
+      setFormData({});
+    } else {
+      alert(
+        "Erro ao autenticar o Usuário. Verifique os dados e tente novamente."
+      );
     }
   },
 };
